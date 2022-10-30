@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/bottle_0030.png-8ef4f4ad4d929769f8caf26675b87ebb.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://assets/art/shop/liquid/bottle_0030.png"
+dest_files=[ "res://.import/bottle_0030.png-8ef4f4ad4d929769f8caf26675b87ebb.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0
