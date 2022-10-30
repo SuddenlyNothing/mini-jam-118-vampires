@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scenes/hud/OrderRenderer.gd" type="Script" id=1]
+[ext_resource path="res://scenes/hud/MaterialsCollected.gd" type="Script" id=1]
 
-[node name="OrderRenderer" type="Control"]
+[node name="MaterialsCollected" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -26,35 +26,42 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="M/V"]
 unique_name_in_owner = true
+visible = false
 margin_right = 1880.0
 margin_bottom = 57.0
+text = "Materials"
+align = 2
+valign = 1
 
 [node name="H" type="HBoxContainer" parent="M/V"]
-margin_top = 61.0
 margin_right = 1880.0
-margin_bottom = 61.0
 mouse_filter = 2
+alignment = 2
 
 [node name="H2" type="HBoxContainer" parent="M/V"]
-margin_top = 65.0
+margin_top = 4.0
 margin_right = 1880.0
-margin_bottom = 65.0
+margin_bottom = 4.0
 mouse_filter = 2
+alignment = 2
 
 [node name="H3" type="HBoxContainer" parent="M/V"]
-margin_top = 69.0
+margin_top = 8.0
 margin_right = 1880.0
-margin_bottom = 69.0
+margin_bottom = 8.0
 mouse_filter = 2
+alignment = 2
 
 [node name="H4" type="HBoxContainer" parent="M/V"]
-margin_top = 73.0
+margin_top = 12.0
 margin_right = 1880.0
-margin_bottom = 73.0
+margin_bottom = 12.0
 mouse_filter = 2
+alignment = 2
 
 [node name="H5" type="HBoxContainer" parent="M/V"]
-margin_top = 77.0
+margin_top = 16.0
 margin_right = 1880.0
-margin_bottom = 77.0
+margin_bottom = 16.0
 mouse_filter = 2
+alignment = 2

@@ -10,9 +10,11 @@ export(float) var fill_increment := 0.1
 
 var current_fill: float = 0.0
 var fill_t: SceneTreeTween
+var return_t: SceneTreeTween
 
 onready var start_y: float = position.y
 onready var fill := $Fill
+onready var pickup_collision := $Area2D/CollisionShape2D
 
 
 func _ready() -> void:
@@ -44,6 +46,8 @@ func set_fill_level(percent: float) -> void:
 
 
 func increment_fill_level() -> void:
+	if return_t and return_t.is_valid():
+		return
 	if fill_t:
 		fill_t.kill()
 	fill_t = create_tween()
@@ -52,12 +56,16 @@ func increment_fill_level() -> void:
 	current_fill += fill_increment
 	if current_fill >= 1:
 		current_fill = 0
-		var t := create_tween()
+		var return_t := create_tween()
+		Variables.add_material("alligator_saliva")
+		pickup_collision.call_deferred("set_disabled", true)
 		set_process(false)
-		t.tween_property(self, "position:x", -50.0, 0.1)
-		t.tween_callback(self, "set_fill_level", [0])
-		t.tween_property(self, "position:x", position.x, 0.1)
-		t.tween_callback(self, "set_process", [true])
+		return_t.tween_property(self, "position:x", -50.0, 0.1)
+		return_t.tween_callback(self, "set_fill_level", [0])
+		return_t.tween_property(self, "position:x", position.x, 0.1)
+		return_t.tween_callback(self, "set_process", [true])
+		return_t.tween_callback(pickup_collision, "call_deferred",
+				["set_disabled", false])
 
 
 func _on_Alligator_bit() -> void:
