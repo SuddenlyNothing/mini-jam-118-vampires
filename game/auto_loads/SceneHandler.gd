@@ -53,6 +53,7 @@ func restart_scene() -> void:
 	if current_scene_res:
 		transition.fade_out()
 		yield(transition, "faded_out")
+		get_tree().paused = true
 		current_scene.queue_free()
 		call_deferred("set_new_scene", current_scene_res)
 	else:
@@ -67,6 +68,7 @@ func goto_scene(path: String) -> void:
 	
 	transition.fade_out()
 	yield(transition, "faded_out")
+	get_tree().paused = true
 	
 	current_scene.queue_free() # Get rid of the old scene.
 	set_process(true)
@@ -88,3 +90,5 @@ func set_new_scene(scene_resource: PackedScene) -> void:
 # Fades into the new scene
 func new_scene_ready() -> void:
 	transition.fade_in()
+	yield(transition, "faded_in")
+	get_tree().paused = false

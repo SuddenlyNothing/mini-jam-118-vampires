@@ -8,7 +8,6 @@
 
 [node name="AlligatorSaliva" instance=ExtResource( 2 )]
 script = ExtResource( 5 )
-task_scene = ""
 
 [node name="AlligatorBg" type="Sprite" parent="." index="1"]
 z_index = -186
