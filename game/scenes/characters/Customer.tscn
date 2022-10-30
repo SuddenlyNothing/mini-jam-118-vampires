@@ -1,4 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/environment/SpriteSelect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scenes/characters/Customer.gd" type="Script" id=3]
+[ext_resource path="res://assets/themes/gameplay.tres" type="Theme" id=4]
 
 [sub_resource type="Shader" id=40]
 code = "shader_type canvas_item;
@@ -118,8 +123,104 @@ void fragment()
 	COLOR = final_color; 
 }"
 
-[resource]
+[sub_resource type="ShaderMaterial" id=41]
 resource_local_to_scene = true
 shader = SubResource( 40 )
-shader_param/line_scale = 1.0
-shader_param/outline_color = Color( 0.8, 0.615686, 0.431373, 1 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 0.960784, 0.964706, 0.94902, 1 )
+
+[sub_resource type="RectangleShape2D" id=42]
+extents = Vector2( 32, 32 )
+
+[node name="Customer" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="SpriteSelect" parent="." instance=ExtResource( 1 )]
+material = SubResource( 41 )
+
+[node name="Sprite" type="Sprite" parent="SpriteSelect"]
+show_behind_parent = true
+use_parent_material = true
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpriteSelect"]
+shape = SubResource( 42 )
+
+[node name="Node2D" type="Node2D" parent="."]
+z_index = 332
+
+[node name="Dialog" type="PanelContainer" parent="Node2D"]
+unique_name_in_owner = true
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 50.0
+margin_top = -82.0
+margin_right = 245.0
+margin_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 4 )
+
+[node name="M" type="MarginContainer" parent="Node2D/Dialog"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 185.0
+margin_bottom = 73.0
+mouse_filter = 2
+custom_constants/margin_right = 15
+custom_constants/margin_top = 15
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 15
+
+[node name="V" type="VBoxContainer" parent="Node2D/Dialog/M"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 160.0
+margin_bottom = 48.0
+mouse_filter = 2
+custom_constants/separation = 4
+
+[node name="Label" type="Label" parent="Node2D/Dialog/M/V"]
+unique_name_in_owner = true
+margin_right = 145.0
+margin_bottom = 33.0
+text = "Hello World"
+valign = 1
+
+[node name="H" type="HBoxContainer" parent="Node2D/Dialog/M/V"]
+visible = false
+margin_top = 37.0
+margin_right = 145.0
+margin_bottom = 37.0
+mouse_filter = 2
+
+[node name="H2" type="HBoxContainer" parent="Node2D/Dialog/M/V"]
+visible = false
+margin_top = 41.0
+margin_right = 145.0
+margin_bottom = 41.0
+mouse_filter = 2
+
+[node name="H3" type="HBoxContainer" parent="Node2D/Dialog/M/V"]
+visible = false
+margin_top = 45.0
+margin_right = 145.0
+margin_bottom = 45.0
+mouse_filter = 2
+
+[node name="H4" type="HBoxContainer" parent="Node2D/Dialog/M/V"]
+visible = false
+margin_top = 49.0
+margin_right = 145.0
+margin_bottom = 49.0
+mouse_filter = 2
+
+[node name="H5" type="HBoxContainer" parent="Node2D/Dialog/M/V"]
+visible = false
+margin_top = 53.0
+margin_right = 145.0
+margin_bottom = 53.0
+mouse_filter = 2
+
+[connection signal="clicked" from="SpriteSelect" to="." method="_on_SpriteSelect_clicked"]
+[connection signal="hovered" from="SpriteSelect" to="." method="_on_SpriteSelect_hovered"]
+[connection signal="unhovered" from="SpriteSelect" to="." method="_on_SpriteSelect_unhovered"]

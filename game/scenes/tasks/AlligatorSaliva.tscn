@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/tasks/alligator/Hand.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/tasks/alligator/Alligator.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/art/alligator/alligator_bg.png" type="Texture" id=4]
+[ext_resource path="res://scenes/tasks/AlligatorSaliva.gd" type="Script" id=5]
+
+[node name="AlligatorSaliva" instance=ExtResource( 2 )]
+script = ExtResource( 5 )
+task_scene = ""
+
+[node name="AlligatorBg" type="Sprite" parent="." index="1"]
+z_index = -186
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Alligator" parent="." index="2" instance=ExtResource( 3 )]
+
+[node name="Hand" parent="." index="3" instance=ExtResource( 1 )]
+position = Vector2( 321, 834 )
+
+[connection signal="bit" from="Alligator" to="Hand" method="_on_Alligator_bit"]
+[connection signal="stopped_biting" from="Alligator" to="Hand" method="_on_Alligator_stopped_biting"]

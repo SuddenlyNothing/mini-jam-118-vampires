@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/tasks/alligator/Hand.gd" type="Script" id=1]
+[ext_resource path="res://assets/art/alligator/hand.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 74.1949, 36.703 )
+
+[node name="Hand" type="Sprite"]
+position = Vector2( 317, 672 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -2724.0
+margin_top = 9.0
+margin_right = -77.0
+margin_bottom = 85.0
+color = Color( 0.8, 0.615686, 0.431373, 1 )
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( -104, 7, -2724, 4 )
+width = 5.046
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2( 13, 80 )
+points = PoolVector2Array( -104, 7, -2724, 4 )
+width = 4.324
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 11, -94 )
+rotation = -0.116846
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="Fill" type="Polygon2D" parent="."]
+show_behind_parent = true
+position = Vector2( 44, 111 )
+rotation = -0.116039
+scale = Vector2( 8.81424, 2.41338 )
+color = Color( 0.858824, 0.796078, 0.54902, 1 )
+polygon = PoolVector2Array( -3.44636, 7.93988, 1.59597, 9.23038, 2.96682, 2.30923, 3, 2, -5, -1, -5.00983, 3.21387 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

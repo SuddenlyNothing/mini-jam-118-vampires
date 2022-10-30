@@ -1,3 +1,71 @@
-[gd_scene format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/characters/Customer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/hud/HUD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://utils/AnimatedButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/themes/gameplay.tres" type="Theme" id=4]
+[ext_resource path="res://scenes/TakingOrders.gd" type="Script" id=5]
 
 [node name="TakingOrders" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_top = 732.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.270588, 0.184314, 0.0313726, 1 )
+
+[node name="Customer" parent="." instance=ExtResource( 1 )]
+position = Vector2( 158, 392 )
+spider_eggs = 1
+snake_venom = 2
+hermit_crab_shell = 1
+
+[node name="Customer2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 414, 529 )
+customer_name = "Bob"
+snake_venom = 4
+alligator_saliva = 1
+hermit_crab_shell = 3
+
+[node name="Customer3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 939, 498 )
+customer_name = "Karen"
+alligator_saliva = 1
+fruit = 5
+
+[node name="Customer4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1640, 438 )
+customer_name = "Sarah"
+spider_eggs = 3
+snake_venom = 1
+hermit_crab_shell = 2
+
+[node name="HUD" parent="." instance=ExtResource( 2 )]
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
+theme = ExtResource( 4 )
+
+[node name="M" type="MarginContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Tasks" parent="Control/M" instance=ExtResource( 3 )]
+margin_left = 1651.0
+margin_top = 999.0
+margin_right = 1900.0
+margin_bottom = 1060.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "View Tasks"
+next_scene = "res://scenes/ChooseTask.tscn"

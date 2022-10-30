@@ -1,6 +1,4 @@
-[gd_resource type="Theme" load_steps=15 format=2]
-
-[ext_resource path="res://assets/fonts/rr28.tres" type="DynamicFont" id=1]
+[gd_resource type="Theme" load_steps=14 format=2]
 
 [sub_resource type="StyleBoxEmpty" id=9]
 
@@ -66,7 +64,6 @@ thickness = 10
 vertical = true
 
 [resource]
-default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 1, 0.92549, 0.839216, 1 )
 Button/colors/font_color_disabled = Color( 0.0509804, 0.168627, 0.270588, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
