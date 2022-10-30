@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/hud/OrderRenderer.gd" type="Script" id=1]
+
+[node name="OrderRenderer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 1 )
+
+[node name="M" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="V" type="VBoxContainer" parent="M"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 1004.0
+margin_bottom = 580.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="M/V"]
+unique_name_in_owner = true
+margin_right = 984.0
+margin_bottom = 33.0
+
+[node name="H" type="HBoxContainer" parent="M/V"]
+margin_top = 37.0
+margin_right = 984.0
+margin_bottom = 37.0
+mouse_filter = 2
+
+[node name="H2" type="HBoxContainer" parent="M/V"]
+margin_top = 41.0
+margin_right = 984.0
+margin_bottom = 41.0
+mouse_filter = 2
+
+[node name="H3" type="HBoxContainer" parent="M/V"]
+margin_top = 45.0
+margin_right = 984.0
+margin_bottom = 45.0
+mouse_filter = 2
+
+[node name="H4" type="HBoxContainer" parent="M/V"]
+margin_top = 49.0
+margin_right = 984.0
+margin_bottom = 49.0
+mouse_filter = 2
+
+[node name="H5" type="HBoxContainer" parent="M/V"]
+margin_top = 53.0
+margin_right = 984.0
+margin_bottom = 53.0
+mouse_filter = 2

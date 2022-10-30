@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/particles/blood_sheet.png" type="Texture" id=1]
+[ext_resource path="res://scenes/particles/Particles.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=2]
+interpolation_mode = 1
+offsets = PoolRealArray( 0, 0.455307 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1 )
+
+[node name="BloodSplatter" type="CPUParticles2D"]
+material = SubResource( 1 )
+emitting = false
+amount = 64
+one_shot = true
+explosiveness = 0.8
+texture = ExtResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 50.0
+flag_align_y = true
+direction = Vector2( 0, -1 )
+spread = 60.0
+gravity = Vector2( 0, 3000 )
+initial_velocity = 2000.0
+initial_velocity_random = 1.0
+damping = 100.0
+damping_random = 1.0
+scale_amount_random = 1.0
+color_initial_ramp = SubResource( 2 )
+anim_speed = 2.0
+anim_speed_random = 1.0
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

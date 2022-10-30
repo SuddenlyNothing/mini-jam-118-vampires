@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/art/alligator/drop_2.png" type="Texture" id=1]
+[ext_resource path="res://assets/art/alligator/drop_3.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/alligator/drop_1.png" type="Texture" id=3]
+[ext_resource path="res://scenes/tasks/alligator/Saliva.gd" type="Script" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "drop",
+"speed": 10.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 24.0
+height = 34.0
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource( 4 )
+
+[node name="Saliva" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "drop"
+offset = Vector2( 0, 29.176 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 41 )
+shape = SubResource( 2 )
+
+[connection signal="animation_finished" from="Saliva" to="." method="_on_Saliva_animation_finished"]
