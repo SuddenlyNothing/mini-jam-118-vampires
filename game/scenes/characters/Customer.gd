@@ -85,6 +85,8 @@ func _on_SpriteSelect_hovered() -> void:
 	if t:
 		t.kill()
 	dialog.show()
+	if flipped:
+		dialog.rect_position.x = -start_offset - dialog.rect_size.x
 #	dialog_collision.shape.extents = dialog.rect_size / 2 + \
 #			dialog_collision_padding
 #	dialog_collision.position = dialog.rect_global_position + dialog.rect_size\
