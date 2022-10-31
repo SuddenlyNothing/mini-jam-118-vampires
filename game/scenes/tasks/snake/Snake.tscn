@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/art/snake/snake_head_open.png" type="Texture" id=1]
+[ext_resource path="res://assets/art/snake/snake_head_closed.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/snake/snake_body_wavy.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/snake/snake_body_straight.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "close",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "crooked",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "straight",
+"speed": 5.0
+} ]
+
+[node name="Snake" type="Area2D"]
+
+[node name="StraightCollision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="CrookedCollision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Head" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "open"
+
+[node name="Body" type="AnimatedSprite" parent="Head"]
+show_behind_parent = true
+position = Vector2( 799.136, 0 )
+frames = SubResource( 3 )
+animation = "crooked"
