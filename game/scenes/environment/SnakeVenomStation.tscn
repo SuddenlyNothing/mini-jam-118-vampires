@@ -140,4 +140,4 @@ next_scene = "res://scenes/tasks/SnakeVenom.tscn"
 shape = SubResource( 42 )
 
 [node name="Label" parent="Node2D/Control" index="0"]
-text = "Snake Venom"
+text = "Snake"

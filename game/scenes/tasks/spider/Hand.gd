@@ -52,8 +52,7 @@ func get_bit() -> void:
 	create_tween().tween_property(sprite.get_material(),
 			"shader_param/hit_strength", 0.0, 1).from(1.0)
 	var bs := BloodSplatter.instance()
-	bs.position = position
-	get_parent().add_child(bs)
+	add_child(bs)
 
 
 func _on_ShakeTimer_timeout() -> void:
