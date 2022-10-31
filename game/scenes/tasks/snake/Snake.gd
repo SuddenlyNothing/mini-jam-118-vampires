@@ -1,5 +1,7 @@
 extends Area2D
 
+signal died
+
 const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")
 
 export(int) var health := 10
@@ -12,10 +14,14 @@ export(int) var min_y := 185
 export(int) var max_y := 800
 export(float) var attack_x := 426.0
 export(float) var min_attack_wait := 1.5
-export(float) var max_attack_wait := 5.0
+export(float) var max_attack_wait := 4.0
+export(float) var dead_y := 1300.0
+export(int) var fall_speed := 700
+export(float) var max_shake := 40.0
 
 var move_t: SceneTreeTween
 var hand: Area2D
+var died := false
 
 onready var head := $Head
 onready var body := $Head/Body
@@ -23,11 +29,21 @@ onready var attack_timer := $AttackTimer
 onready var straight_collision := $StraightCollision
 onready var crooked_collision := $CrookedCollision
 onready var hitbox := $Hitbox
-onready var blood_pos: Vector2 = $BloodPosition.position
+onready var blood_pos := $BloodPosition
+onready var shake_timer := $ShakeTimer
+onready var shake_time: float = shake_timer.wait_time
 
 
 func _ready() -> void:
 	start()
+	set_process(false)
+
+
+func _process(delta: float) -> void:
+	head.position = Vector2(
+		Variables.rng.randf_range(-max_shake, max_shake),
+		Variables.rng.randf_range(-max_shake, max_shake)
+	) * shake_timer.time_left / shake_time
 
 
 func start() -> void:
@@ -91,17 +107,38 @@ func attack() -> void:
 func bite() -> void:
 	if hand:
 		var bs := BloodSplatter.instance()
-		bs.position = blood_pos
-		add_child(bs)
+		hand.add_child(bs)
+		bs.global_position = blood_pos.global_position
 		hand.get_hit()
 		z_index = 1
 
 
 func get_hit() -> void:
+	if died:
+		return
 	health -= 1
 	z_index = 0
+	create_tween().tween_property(head.get_material(),
+			"shader_param/hit_strength", 0.0, 0.5).from(1.0)
+	set_process(true)
+	shake_timer.start()
 	if health <= 0:
-		pass
+		died = true
+		if move_t:
+			move_t.kill()
+		attack_timer.stop()
+		head.play("dead")
+		move_t = create_tween().set_ease(Tween.EASE_IN)\
+				.set_trans(Tween.TRANS_EXPO)
+		move_t.tween_property(self, "position:y", dead_y,
+				(dead_y - position.y) / fall_speed)
+		move_t.tween_callback(self, "die")
+
+
+func die() -> void:
+	Variables.add_material("snake_venom", 3)
+	emit_signal("died")
+	queue_free()
 
 
 func _on_AttackTimer_timeout() -> void:
@@ -118,3 +155,8 @@ func _on_Hitbox_area_exited(area: Area2D) -> void:
 	if not area.has_method("get_hit") or area == self:
 		return
 	hand = null
+
+
+func _on_ShakeTimer_timeout() -> void:
+	set_process(false)
+	head.position = Vector2()

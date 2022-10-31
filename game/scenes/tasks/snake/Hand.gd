@@ -1,7 +1,5 @@
 extends Area2D
 
-const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")
-
 export(float) var start_x := 419.0
 export(float) var end_x := 1650.0
 export(float) var attack_dur := 0.3
@@ -41,7 +39,7 @@ func attack() -> void:
 	move_t.tween_callback(hitbox_collision, "call_deferred",
 			["set_disabled", true])
 	move_t.set_ease(Tween.EASE_IN_OUT).tween_interval(attack_dur / 5)
-	move_t.tween_property(self, "position:x", start_x, attack_dur * 3)
+	move_t.tween_property(self, "position:x", start_x, attack_dur * 2)
 	move_t.parallel().tween_property(hand_knife, "position:y", 0.0,
 			attack_dur / 2)
 	move_t.parallel().tween_property(hand_knife, "rotation_degrees", 0.0,
@@ -57,11 +55,6 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if hit:
 		return
 	if area.has_method("get_hit"):
-		var bs := BloodSplatter.instance()
-		bs.z_index = 10
-		bs.position = blood_pos.global_position
-		bs.modulate = Color.lightgreen
-		get_parent().add_child(bs)
 		hit = true
 		area.get_hit()
 		z_index = 1
