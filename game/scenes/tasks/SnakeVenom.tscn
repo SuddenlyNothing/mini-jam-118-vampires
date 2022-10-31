@@ -27,7 +27,6 @@ shader_param/hit_strength = 0.0
 
 [node name="SnakeVenom" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
-task_scene = ""
 min_y = 185
 max_y = 800
 
