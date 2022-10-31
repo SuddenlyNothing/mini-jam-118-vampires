@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/art/snake/snake_head_open.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/snake/snake_head_closed.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/snake/snake_body_wavy.png" type="Texture" id=3]
 [ext_resource path="res://assets/art/snake/snake_body_straight.png" type="Texture" id=4]
-
-[sub_resource type="RectangleShape2D" id=1]
+[ext_resource path="res://scenes/tasks/snake/Snake.gd" type="Script" id=5]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -33,20 +32,54 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 745, 71 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 84.5, 85 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 93, 85 )
+
 [node name="Snake" type="Area2D"]
-
-[node name="StraightCollision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
-
-[node name="CrookedCollision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 1083, 296 )
+script = ExtResource( 5 )
 
 [node name="Head" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "open"
+animation = "close"
 
 [node name="Body" type="AnimatedSprite" parent="Head"]
 show_behind_parent = true
 position = Vector2( 799.136, 0 )
 frames = SubResource( 3 )
 animation = "crooked"
+
+[node name="StraightCollision" type="CollisionShape2D" parent="."]
+position = Vector2( 754, -1 )
+shape = SubResource( 1 )
+disabled = true
+
+[node name="CrookedCollision" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 10, -67, 11, 67, 116, 67, 454, 6, 560, 17, 657, 71, 750, 122, 872, 132, 874, 7, 795, -1, 611, -94, 455, -120, 368, -114, 144, -66 )
+
+[node name="Hitbox" type="Area2D" parent="."]
+position = Vector2( -11, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( -66.5, 0 )
+shape = SubResource( 4 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BloodPosition" type="Position2D" parent="."]
+position = Vector2( -67, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -69, 0 )
+shape = SubResource( 5 )
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_Hitbox_area_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
