@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/snake_bite.ogg-443505e0d7c513c47bd49a287337efdc.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/snake/snake_bite.ogg"
+dest_files=[ "res://.import/snake_bite.ogg-443505e0d7c513c47bd49a287337efdc.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

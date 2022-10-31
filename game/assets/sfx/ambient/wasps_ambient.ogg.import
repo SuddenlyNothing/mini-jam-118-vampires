@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/wasps_ambient.ogg-c3c1e0b91d995893ab78572e53c21e78.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/ambient/wasps_ambient.ogg"
+dest_files=[ "res://.import/wasps_ambient.ogg-c3c1e0b91d995893ab78572e53c21e78.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

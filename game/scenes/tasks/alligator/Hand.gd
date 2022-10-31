@@ -60,9 +60,9 @@ func increment_fill_level() -> void:
 		Variables.add_material("alligator_saliva")
 		pickup_collision.call_deferred("set_disabled", true)
 		set_process(false)
-		return_t.tween_property(self, "position:x", -50.0, 0.1)
+		return_t.tween_property(self, "position:x", -100.0, 0.2)
 		return_t.tween_callback(self, "set_fill_level", [0])
-		return_t.tween_property(self, "position:x", position.x, 0.1)
+		return_t.tween_property(self, "position:x", position.x, 0.2)
 		return_t.tween_callback(self, "set_process", [true])
 		return_t.tween_callback(pickup_collision, "call_deferred",
 				["set_disabled", false])

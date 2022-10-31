@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/art/spider/hole.png" type="Texture" id=1]
+[ext_resource path="res://assets/art/spider/web.png" type="Texture" id=2]
+[ext_resource path="res://scenes/tasks/spider/Web.gd" type="Script" id=3]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 normal_color : hint_color;
+uniform vec4 hide_color: hint_color;
+uniform float show_amount : hint_range(0.0, 1.0);
+
+void fragment() {
+	vec4 text = texture(TEXTURE, UV);
+	if (text.r + text.g + text.b >= 3.0 || text.a <= 0.0) {
+		COLOR = hide_color + (texture(SCREEN_TEXTURE, SCREEN_UV) - hide_color) * show_amount;
+		COLOR.a = text.a;
+	}
+	else {
+		COLOR = normal_color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/normal_color = Color( 0.533333, 0.580392, 0.592157, 1 )
+shader_param/hide_color = Color( 0.162, 0.1773, 0.18, 1 )
+shader_param/show_amount = 1.0
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 124.016
+
+[node name="Web" type="BackBufferCopy"]
+z_index = -20
+copy_mode = 2
+rect = Rect2( 0, 0, 1920, 1080 )
+script = ExtResource( 3 )
+
+[node name="Web" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+texture = ExtResource( 2 )
+
+[node name="Hole" type="Area2D" parent="Web" groups=["hole"]]
+material = SubResource( 2 )
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Web/Hole"]
+shape = SubResource( 3 )
+
+[node name="Hole" type="Sprite" parent="Web/Hole"]
+show_behind_parent = true
+use_parent_material = true
+texture = ExtResource( 1 )
+
+[connection signal="area_entered" from="Web/Hole" to="." method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="Web/Hole" to="." method="_on_Area2D_area_exited"]
