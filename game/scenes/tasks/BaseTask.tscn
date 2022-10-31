@@ -31,3 +31,8 @@ size_flags_vertical = 8
 text = "Press {exit} to exit"
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
+
+[node name="Ambiance" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+autoplay = true
+bus = "SFX"

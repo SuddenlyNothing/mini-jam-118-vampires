@@ -5,7 +5,7 @@ export(int) var chase_speed := 200
 export(float) var min_state_dur := 0.1
 export(float) var max_state_dur := 2.0
 export(float) var rot_speed := 10.0
-export(int) var throw_force := 3000
+export(int) var throw_force := 2000
 export(int) var gravity := 3000
 
 var player: Node2D
@@ -23,6 +23,8 @@ onready var collision := $Area2D/CollisionShape2D
 func _ready() -> void:
 	Variables.rng.randomize()
 	rotation = Variables.rng.randf_range(0, PI * 2)
+	if Variables.rng.randf() > 0.5:
+		flip_h = true
 
 
 func stop() -> void:
@@ -32,6 +34,8 @@ func stop() -> void:
 func start(p: Node2D) -> void:
 	player = p
 	start_state_change_timer()
+	Variables.rng.randomize()
+	state_change_timer.start(Variables.rng.randf_range(0.05, 0.5))
 	collision.call_deferred("set_disabled", false)
 
 
@@ -49,7 +53,7 @@ func enter_bite() -> void:
 	Variables.rng.randomize()
 	throw_velocity = Vector2.UP.rotated(Variables.rng.randf_range(
 		-PI / 4, PI / 4
-	)) * throw_force * Variables.rng.randf()
+	)) * throw_force * Variables.rng.randf_range(0.5, 1)
 	throw_rotation = Variables.rng.randf_range(-5 * PI, 5 * PI)
 	bite_free_timer.start()
 
@@ -107,9 +111,9 @@ func face(dir: Vector2, delta: float) -> void:
 func _on_StateChangeTimer_timeout() -> void:
 	Variables.rng.randomize()
 	var rand := Variables.rng.randf()
-	if rand > 0.7:
+	if rand > 0.6:
 		spider_states.call_deferred("set_state", "idle")
-	elif rand > 0.3:
+	elif rand > 0.1:
 		spider_states.call_deferred("set_state", "wander")
 	else:
 		spider_states.call_deferred("set_state", "chase")

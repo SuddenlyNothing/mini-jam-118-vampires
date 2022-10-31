@@ -2,7 +2,7 @@ extends Area2D
 
 const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")
 
-export(float) var max_shake := 300.0
+export(float) var max_shake := 150.0
 
 var speed := 500
 

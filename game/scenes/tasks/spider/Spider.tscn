@@ -20,7 +20,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 34.0588
+radius = 24.0
 
 [node name="Spider" type="AnimatedSprite"]
 z_index = 1

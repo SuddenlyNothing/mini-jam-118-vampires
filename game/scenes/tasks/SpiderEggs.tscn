@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tasks/SpiderEggs.gd" type="Script" id=2]
 [ext_resource path="res://scenes/tasks/spider/Hand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/sfx/ambient/spiders_ambient.wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/tasks/spider/Web.tscn" type="PackedScene" id=5]
 
 [node name="SpiderEggs" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+max_ambiance = 1
 
 [node name="Node2D" type="Node2D" parent="." index="0"]
 z_index = -630
@@ -21,6 +23,10 @@ color = Color( 0.27451, 0.27451, 0.254902, 1 )
 
 [node name="Web" parent="." index="3" instance=ExtResource( 5 )]
 z_index = -10
+use_pre_hole_pos = true
 
 [node name="Hand" parent="." index="4" instance=ExtResource( 3 )]
 position = Vector2( 229, 731 )
+
+[node name="Ambiance" parent="." index="5"]
+stream = ExtResource( 4 )

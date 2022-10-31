@@ -3,8 +3,11 @@ extends BackBufferCopy
 const Spider := preload("res://scenes/tasks/spider/Spider.tscn")
 const SpiderEggs := preload("res://scenes/tasks/spider/SpiderEgg.tscn")
 
+export(bool) var use_pre_hole_pos := false
+export(Vector2) var pre_hole_pos := Vector2()
 export(float) var duration := 1.0
 export(int) var max_spiders := 10
+export(int) var min_spiders := 2
 export(int) var max_eggs := 2
 
 var is_hand_inside := false
@@ -21,8 +24,11 @@ func _ready() -> void:
 	Variables.rng.randomize()
 #	hole.position = Vector2(Variables.rng.randi_range(0, 1920),
 #			Variables.rng.randi_range(0, 1080))
-	hole.position = Vector2(Variables.rng.randi_range(-960, 960),
-			Variables.rng.randi_range(-540, 540))
+	if use_pre_hole_pos:
+		hole.position = pre_hole_pos
+	else:
+		hole.position = Vector2(Variables.rng.randi_range(-960, 960),
+				Variables.rng.randi_range(-540, 540))
 
 
 func get_hole_pos() -> Vector2:
@@ -40,7 +46,7 @@ func prepare_enter(hole_pos: Vector2) -> void:
 
 func spawn_objcts(hole_pos: Vector2) -> void:
 	Variables.rng.randomize()
-	for _i in Variables.rng.randi_range(0, max_spiders):
+	for _i in Variables.rng.randi_range(min_spiders, max_spiders):
 		var s := Spider.instance()
 		var new_pos := Vector2(Variables.rng.randf_range(-960, 960),
 				Variables.rng.randf_range(-540, 540))

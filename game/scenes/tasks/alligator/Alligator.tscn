@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/tasks/alligator/Alligator.gd" type="Script" id=1]
 [ext_resource path="res://assets/art/alligator/alli_open.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/alligator/alli_closed.png" type="Texture" id=3]
+[ext_resource path="res://assets/sfx/alligator/alligator_warning.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sfx/alligator/alligator_pre_bite.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/alligator/alligator_bite.wav" type="AudioStream" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -17,13 +20,24 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="AudioStreamRandomPitch" id=2]
+audio_stream = ExtResource( 4 )
+
+[sub_resource type="AudioStreamRandomPitch" id=3]
+audio_stream = ExtResource( 5 )
+
+[sub_resource type="AudioStreamRandomPitch" id=4]
+audio_stream = ExtResource( 6 )
+
 [node name="Alligator" type="AnimatedSprite"]
-position = Vector2( 1330, 593 )
+position = Vector2( 2330, 593 )
 frames = SubResource( 1 )
 animation = "open"
+offset = Vector2( -1000, 0 )
 script = ExtResource( 1 )
 
 [node name="SpawnPos" type="Node2D" parent="."]
+position = Vector2( -1000, 0 )
 
 [node name="Position2D" type="Position2D" parent="SpawnPos"]
 position = Vector2( -503, -285 )
@@ -113,13 +127,13 @@ position = Vector2( 69, -153 )
 position = Vector2( 196, -164 )
 
 [node name="Position2D37" type="Position2D" parent="SpawnPos"]
-position = Vector2( -114, -145 )
+position = Vector2( -112, -158 )
 
 [node name="Position2D38" type="Position2D" parent="SpawnPos"]
-position = Vector2( -543, -271 )
+position = Vector2( -534, -294 )
 
 [node name="Position2D39" type="Position2D" parent="SpawnPos"]
-position = Vector2( -558, -267 )
+position = Vector2( -561, -299 )
 
 [node name="AttemptCloseTimer" type="Timer" parent="."]
 one_shot = true
@@ -130,8 +144,24 @@ wait_time = 0.2
 [node name="FakeTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="TiltTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="FakeSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 2 )
+bus = "SFX"
+
+[node name="HintSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 3 )
+bus = "SFX"
+
+[node name="BiteSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 4 )
+bus = "SFX"
+
 [connection signal="animation_finished" from="." to="." method="_on_Alligator_animation_finished"]
 [connection signal="frame_changed" from="." to="." method="_on_Alligator_frame_changed"]
 [connection signal="timeout" from="AttemptCloseTimer" to="." method="_on_AttemptCloseTimer_timeout"]
 [connection signal="timeout" from="SalivaInterval" to="." method="_on_SalivaInterval_timeout"]
 [connection signal="timeout" from="FakeTimer" to="." method="_on_FakeTimer_timeout"]
+[connection signal="timeout" from="TiltTimer" to="." method="_on_TiltTimer_timeout"]

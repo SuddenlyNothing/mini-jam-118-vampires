@@ -34,34 +34,31 @@ align = 2
 valign = 1
 
 [node name="H" type="HBoxContainer" parent="M/V"]
+margin_left = 1880.0
 margin_right = 1880.0
 mouse_filter = 2
-alignment = 2
+size_flags_horizontal = 8
 
 [node name="H2" type="HBoxContainer" parent="M/V"]
 margin_top = 4.0
 margin_right = 1880.0
 margin_bottom = 4.0
 mouse_filter = 2
-alignment = 2
 
 [node name="H3" type="HBoxContainer" parent="M/V"]
 margin_top = 8.0
 margin_right = 1880.0
 margin_bottom = 8.0
 mouse_filter = 2
-alignment = 2
 
 [node name="H4" type="HBoxContainer" parent="M/V"]
 margin_top = 12.0
 margin_right = 1880.0
 margin_bottom = 12.0
 mouse_filter = 2
-alignment = 2
 
 [node name="H5" type="HBoxContainer" parent="M/V"]
 margin_top = 16.0
 margin_right = 1880.0
 margin_bottom = 16.0
 mouse_filter = 2
-alignment = 2
