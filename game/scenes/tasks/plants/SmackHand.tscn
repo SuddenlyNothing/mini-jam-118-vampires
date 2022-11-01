@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/art/spider/hand.png" type="Texture" id=1]
+[ext_resource path="res://scenes/tasks/plants/SmackHand.gd" type="Script" id=2]
+
+[node name="SmackHand" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="Sprite"]
+margin_left = -43.0
+margin_top = 114.0
+margin_right = 49.0
+margin_bottom = 1189.0
+mouse_filter = 2
+color = Color( 0.8, 0.615686, 0.431373, 1 )
+
+[node name="Line2D" type="Line2D" parent="Sprite"]
+position = Vector2( -8, 24.8 )
+scale = Vector2( 0.8, 0.8 )
+points = PoolVector2Array( -45, 124, -45, 1455 )
+width = 5.0
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D2" type="Line2D" parent="Sprite"]
+position = Vector2( 84.8, 10.4 )
+scale = Vector2( 0.8, 0.8 )
+points = PoolVector2Array( -44, 128, -45, 1473 )
+width = 5.0
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -45, 125, -100, 67, -119, -14, -68, 44, -42, -120, -15, -22, 23, -139, 30, -22, 80, -105, 67, 5, 128, -37, 41, 125, 5, 137 )
