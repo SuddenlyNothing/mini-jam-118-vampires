@@ -16,7 +16,7 @@ export(float) var attack_x := 426.0
 export(float) var min_attack_wait := 1.5
 export(float) var max_attack_wait := 4.0
 export(float) var dead_y := 1300.0
-export(int) var fall_speed := 700
+export(int) var fall_speed := 1000
 export(float) var max_shake := 40.0
 
 var move_t: SceneTreeTween
@@ -129,7 +129,7 @@ func get_hit() -> void:
 		attack_timer.stop()
 		head.play("dead")
 		move_t = create_tween().set_ease(Tween.EASE_IN)\
-				.set_trans(Tween.TRANS_EXPO)
+				.set_trans(Tween.TRANS_BACK)
 		move_t.tween_property(self, "position:y", dead_y,
 				(dead_y - position.y) / fall_speed)
 		move_t.tween_callback(self, "die")
