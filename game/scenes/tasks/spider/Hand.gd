@@ -1,3 +1,4 @@
+class_name Hand
 extends Area2D
 
 const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")
@@ -30,6 +31,10 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	move(delta)
+
+
+func move(delta: float) -> void:
 	var move_amount := speed * delta
 	if move_amount >= get_local_mouse_position().length():
 		set_clamped_pos(get_global_mouse_position())

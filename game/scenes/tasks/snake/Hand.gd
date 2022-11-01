@@ -2,7 +2,7 @@ extends Area2D
 
 export(float) var start_x := 419.0
 export(float) var end_x := 1650.0
-export(float) var attack_dur := 0.3
+export(float) var attack_dur := 0.25
 export(float) var hand_speed := 3.0
 
 var hit := false
@@ -10,6 +10,7 @@ var hit := false
 onready var hand_knife := $HandKnife
 onready var hitbox_collision := $Hitbox/CollisionShape2D
 onready var blood_pos := $BloodPosition
+onready var stab := $Stab
 
 var move_t: SceneTreeTween
 
@@ -33,9 +34,11 @@ func attack() -> void:
 			.set_trans(Tween.TRANS_QUAD)
 	move_t.tween_property(hand_knife, "position:y", 26.0, attack_dur / 2)
 	move_t.parallel().tween_property(hand_knife, "rotation_degrees", 8.0,
-			attack_dur / 2)
+			attack_dur)
 	move_t.set_ease(Tween.EASE_IN).parallel()\
 			.tween_property(self, "position:x", end_x, attack_dur)
+	move_t.parallel().tween_callback(stab, "play")\
+			.set_delay(attack_dur - stab.stream.get_length())
 	move_t.tween_callback(hitbox_collision, "call_deferred",
 			["set_disabled", true])
 	move_t.set_ease(Tween.EASE_IN_OUT).tween_interval(attack_dur / 5)
