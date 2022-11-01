@@ -15,6 +15,8 @@ var return_t: SceneTreeTween
 onready var start_y: float = position.y
 onready var fill := $Fill
 onready var pickup_collision := $Area2D/CollisionShape2D
+onready var drip := $Drip
+onready var collect := $Collect
 
 
 func _ready() -> void:
@@ -48,6 +50,7 @@ func set_fill_level(percent: float) -> void:
 func increment_fill_level() -> void:
 	if return_t and return_t.is_valid():
 		return
+	drip.play()
 	if fill_t:
 		fill_t.kill()
 	fill_t = create_tween()
@@ -55,6 +58,7 @@ func increment_fill_level() -> void:
 			min(current_fill + fill_increment, 1), 0.1)
 	current_fill += fill_increment
 	if current_fill >= 1:
+		collect.play()
 		current_fill = 0
 		var return_t := create_tween()
 		Variables.add_material("alligator_saliva")

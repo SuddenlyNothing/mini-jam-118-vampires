@@ -27,11 +27,11 @@ func _ready() -> void:
 
 
 func update_materials() -> void:
-	label.hide()
 	for container in icon_containers:
 		for child in container.get_children():
 			child.queue_free()
-	
+	yield(get_tree(), "idle_frame")
+	label.hide()
 	icon_containers[0].hide()
 	for _i in Variables.materials.spider_eggs:
 		label.show()
