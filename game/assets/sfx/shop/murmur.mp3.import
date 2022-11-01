@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/murmur.mp3-ef8bfffa24a9db84f84c1961da59fd3d.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/shop/murmur.mp3"
+dest_files=[ "res://.import/murmur.mp3-ef8bfffa24a9db84f84c1961da59fd3d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
