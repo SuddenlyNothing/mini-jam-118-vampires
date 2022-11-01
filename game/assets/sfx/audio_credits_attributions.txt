@@ -1,6 +1,7 @@
 Audio credits
 
 (attribution 4.0)
+-----------------------
 Biting, Crunchy, B 
 by user InspectorJ
 https://freesound.org/people/InspectorJ/sounds/332407/
@@ -17,7 +18,14 @@ Nasty Knife Stab
 by user Aris621
 https://freesound.org/people/Aris621/sounds/435238/
 
+(Noncommercial 3.0)
+-------------------------
+mousetrap-6
+by user thomas_evdokimoff
+https://freesound.org/people/thomas_evdokimoff/sounds/263447/
+
 (creative commons 0)
+-------------------------
 Snarling Snake
 by user florianreichelt (ig https://www.instagram.com/florianreichelt/)
 https://freesound.org/people/florianreichelt/sounds/423454/
@@ -45,3 +53,7 @@ https://freesound.org/people/PhreaKsAccount/sounds/46270/
 Glasses clinking
 by user theresabrits
 https://freesound.org/people/theresabrits/sounds/488417/
+
+Velcro Pull Short
+by user Rudmer_Rotteveel
+https://freesound.org/people/Rudmer_Rotteveel/sounds/536228/
