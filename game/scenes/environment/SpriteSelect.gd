@@ -39,7 +39,7 @@ func set_hovered(val: bool) -> void:
 		if t:
 			t.kill()
 		t = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
-		t.tween_property(get_material(), "shader_param/line_scale", 10.0, 0.3)
+		t.tween_property(get_material(), "shader_param/line_scale", 2.0, 0.3)
 	else:
 		emit_signal("unhovered")
 		if t:

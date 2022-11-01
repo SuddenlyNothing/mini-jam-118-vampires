@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/environment/SpriteSelect.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/environment/TaskStationButton.gd" type="Script" id=2]
@@ -128,6 +128,15 @@ shader = SubResource( 40 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 0.960784, 0.964706, 0.94902, 1 )
 
+[sub_resource type="SpriteFrames" id=43]
+resource_local_to_scene = true
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [sub_resource type="RectangleShape2D" id=42]
 resource_local_to_scene = true
 extents = Vector2( 32, 32 )
@@ -138,9 +147,9 @@ script = ExtResource( 2 )
 [node name="SpriteSelect" parent="." instance=ExtResource( 1 )]
 material = SubResource( 41 )
 
-[node name="Sprite" type="Sprite" parent="SpriteSelect"]
+[node name="Sprite" type="AnimatedSprite" parent="SpriteSelect"]
 use_parent_material = true
-texture = ExtResource( 3 )
+frames = SubResource( 43 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpriteSelect"]
 shape = SubResource( 42 )
@@ -155,6 +164,7 @@ margin_left = -457.0
 margin_top = -131.0
 margin_right = 457.0
 margin_bottom = -32.0
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Node2D/Control"]
 anchor_right = 1.0
