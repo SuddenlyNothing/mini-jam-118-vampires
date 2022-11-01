@@ -3,6 +3,7 @@ extends Area2D
 export(Vector2) var end_pos
 export(float) var min_speed := 150.0
 export(float) var max_speed := 400.0
+export(bool) var guarantee_shell := false
 
 var speed := 0.0
 var dir := Vector2()
@@ -11,11 +12,12 @@ onready var anim_sprite := $AnimatedSprite
 onready var start_stop_timer := $StartStopTimer
 onready var collision := $CollisionShape2D
 onready var shell := $AnimatedSprite/Shell
+onready var move := $Move
 
 
 func _ready() -> void:
 	Variables.rng.randomize()
-	if Variables.rng.randf() > 0.75:
+	if Variables.rng.randf() > 0.75 or guarantee_shell:
 		shell.show()
 		collision.call_deferred("set_disabled", false)
 	anim_sprite.play("walk")
@@ -43,9 +45,11 @@ func _on_StartStopTimer_timeout() -> void:
 	if anim_sprite.animation == "walk":
 		anim_sprite.play("idle")
 		start_stop_timer.start(Variables.rng.randf_range(0.5, 2))
+		move.stream_paused = true
 	else:
+		move.stream_paused = false
 		anim_sprite.play("walk")
-		start_stop_timer.start(Variables.rng.randf_range(0.5, 4))
+		start_stop_timer.start(Variables.rng.randf_range(1, 4))
 	set_physics_process(not is_physics_processing())
 
 

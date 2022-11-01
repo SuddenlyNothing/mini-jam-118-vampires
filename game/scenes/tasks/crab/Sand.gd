@@ -33,7 +33,7 @@ func get_outside_pos(cross_pos: Vector2, travel_dir: Vector2) -> Vector2:
 	return travel_dir * travel_dist + cross_pos
 
 
-func spawn_crab() -> void:
+func spawn_crab(guarantee_shell: bool = false) -> void:
 	Variables.rng.randomize()
 	var c := Crab.instance()
 	var cross_pos := Vector2(
@@ -43,12 +43,13 @@ func spawn_crab() -> void:
 	var travel_dir := Vector2.RIGHT.rotated(Variables.rng.randf() * 2 * PI)
 	c.position = get_outside_pos(cross_pos, travel_dir)
 	c.end_pos = get_outside_pos(cross_pos, -travel_dir)
+	c.guarantee_shell = guarantee_shell
 	c.connect("tree_exited", self, "spawn_crab")
 	call_deferred("add_child", c)
 
 
 func _on_SpawnInterval_timeout() -> void:
-	spawn_crab()
 	current_crabs += 1
+	spawn_crab(current_crabs == total_crabs / 2)
 	if current_crabs >= total_crabs:
 		spawn_interval.stop()

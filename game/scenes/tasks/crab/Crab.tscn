@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/art/crabs/crab_1.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/crabs/crab_2.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/crabs/crab_idle.png" type="Texture" id=3]
 [ext_resource path="res://scenes/tasks/crab/Crab.gd" type="Script" id=4]
 [ext_resource path="res://assets/art/crabs/shell.png" type="Texture" id=5]
+[ext_resource path="res://assets/sfx/crabs/crab_skitter.wav" type="AudioStream" id=6]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -24,6 +25,10 @@ extents = Vector2( 29, 25 )
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 98.0
+
+[sub_resource type="AudioStreamRandomPitch" id=4]
+audio_stream = ExtResource( 6 )
+random_pitch = 1.2
 
 [node name="Crab" type="Area2D" groups=["crab"]]
 collision_layer = 2
@@ -52,6 +57,11 @@ disabled = true
 
 [node name="StartStopTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Move" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 4 )
+volume_db = -10.0
+autoplay = true
 
 [connection signal="area_entered" from="AnimatedSprite/Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="StartStopTimer" to="." method="_on_StartStopTimer_timeout"]
