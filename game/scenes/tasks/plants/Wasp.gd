@@ -1,3 +1,4 @@
+class_name Wasp
 extends Area2D
 
 const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")

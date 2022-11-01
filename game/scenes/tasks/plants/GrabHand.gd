@@ -6,6 +6,7 @@ export(float) var return_y := 1080.0
 export(int) var return_speed := 1000
 
 var input := Vector2()
+var picking := false
 
 onready var shake_timer := $ShakeTimer
 onready var shake_time: float = shake_timer.wait_time
@@ -45,6 +46,7 @@ func stop_returning() -> void:
 	cs.call_deferred("set_disabled", false)
 	cs2.call_deferred("set_disabled", false)
 	hitbox_collision.call_deferred("set_disabled", false)
+	picking = false
 
 
 func _on_ShakeTimer_timeout() -> void:
@@ -53,8 +55,11 @@ func _on_ShakeTimer_timeout() -> void:
 
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
+	if picking:
+		return
 	if not area.is_in_group("berry"):
 		return
+	picking = true
 	area.queue_free()
 	anim_sprite.play("berry")
 	cs.call_deferred("set_disabled", true)

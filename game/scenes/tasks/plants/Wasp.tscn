@@ -53,10 +53,11 @@ radius = 34.0147
 
 [node name="Wasp" type="Area2D" groups=["wasp"]]
 script = ExtResource( 4 )
+min_move_speed = 200.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="BloodPosition" type="Position2D" parent="AnimatedSprite"]
