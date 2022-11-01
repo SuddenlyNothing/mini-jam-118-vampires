@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/art/crabs/sand.png" type="Texture" id=1]
+[ext_resource path="res://scenes/tasks/crab/Sand.gd" type="Script" id=2]
+
+[node name="Sand" type="Sprite"]
+z_index = -104
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 2 )
+
+[node name="SpawnInterval" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnInterval" to="." method="_on_SpawnInterval_timeout"]

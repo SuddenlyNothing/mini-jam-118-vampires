@@ -38,7 +38,5 @@ func set_order(val: Dictionary) -> void:
 
 
 func add_material(mat: String, amount: int = 1) -> void:
-	if materials[mat] >= 20:
-		return
-	materials[mat] += amount
+	materials[mat] = min(materials[mat] + amount, 20)
 	emit_signal("materials_updated")

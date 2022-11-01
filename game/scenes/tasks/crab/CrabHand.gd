@@ -1,18 +1,18 @@
 extends Hand
 
-export(float) var rot_speed := 3
+onready var grab_timer := $GrabTimer
 
 
-func move(delta: float) -> void:
-	var move_amount := speed * delta
-	if move_amount >= get_local_mouse_position().length():
-		set_clamped_pos(get_global_mouse_position())
-	else:
-		var dir := get_local_mouse_position().normalized()
-		face(dir, delta)
-		set_clamped_pos(position + dir * move_amount)
+func _on_CrabHand_area_entered(area: Area2D) -> void:
+	if not area.is_in_group("crab"):
+		return
+	area.grab_shell()
+	collision.call_deferred("set_disabled", true)
+	grab_timer.start()
+	sprite.play("shell")
 
 
-func face(dir: Vector2, delta: float) -> void:
-	sprite.rotation = lerp_angle(sprite.rotation,
-			dir.angle() + PI / 2, rot_speed * delta)
+func _on_GrabTimer_timeout() -> void:
+	collision.call_deferred("set_disabled", false)
+	sprite.play("default")
+	Variables.add_material("hermit_crab_shell")

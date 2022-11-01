@@ -23,7 +23,12 @@ shader_param/hit_strength = 0.0
 
 [node name="CrabHand" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-rot_speed = 3.0
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource( 2 )
+
+[node name="GrabTimer" type="Timer" parent="." index="5"]
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="_on_CrabHand_area_entered"]
+[connection signal="timeout" from="GrabTimer" to="." method="_on_GrabTimer_timeout"]

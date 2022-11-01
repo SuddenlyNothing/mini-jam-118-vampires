@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/art/spider/hand.png" type="Texture" id=1]
 [ext_resource path="res://scenes/tasks/spider/Hand.gd" type="Script" id=2]
 [ext_resource path="res://assets/shaders/hit_flash.tres" type="Material" id=3]
+[ext_resource path="res://assets/art/crabs/hand_holding_shell.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "shell",
+"speed": 5.0
+} ]
 
 [node name="Hand" type="Area2D" groups=["hand"]]
 z_index = 1
@@ -10,9 +24,9 @@ collision_layer = 3
 collision_mask = 0
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 3 )
-texture = ExtResource( 1 )
+frames = SubResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -45, 125, -100, 67, -119, -14, -68, 44, -42, -120, -15, -22, 23, -139, 30, -22, 80, -105, 67, 5, 128, -37, 41, 125, 5, 137 )

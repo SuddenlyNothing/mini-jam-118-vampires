@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/tasks/BaseTask.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/art/crabs/sand.png" type="Texture" id=2]
+[ext_resource path="res://scenes/tasks/crab/Sand.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/tasks/crab/CrabHand.tscn" type="PackedScene" id=3]
 
 [node name="HermitCrabShell" instance=ExtResource( 1 )]
@@ -9,10 +9,7 @@
 [node name="InputFormatLabel" parent="Control/M" index="0"]
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 
-[node name="Sand" type="Sprite" parent="." index="3"]
-z_index = -104
-texture = ExtResource( 2 )
-centered = false
+[node name="Sand" parent="." index="3" instance=ExtResource( 2 )]
 
 [node name="CrabHand" parent="." index="4" instance=ExtResource( 3 )]
 position = Vector2( 968, 474 )
