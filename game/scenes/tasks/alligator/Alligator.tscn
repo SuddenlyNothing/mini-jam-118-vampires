@@ -156,6 +156,7 @@ stream = SubResource( 3 )
 bus = "SFX"
 
 [node name="BiteSFX" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = SubResource( 4 )
 bus = "SFX"
 

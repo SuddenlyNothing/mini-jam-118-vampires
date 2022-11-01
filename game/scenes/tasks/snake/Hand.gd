@@ -51,6 +51,7 @@ func attack() -> void:
 
 
 func get_hit() -> void:
+	Variables.add_suspicion()
 	z_index = 0
 
 

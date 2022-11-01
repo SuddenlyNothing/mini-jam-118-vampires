@@ -66,5 +66,13 @@ one_shot = true
 position = Vector2( 15, 8 )
 shape = SubResource( 4 )
 
-[connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]
+[node name="ITimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="IFlashTimer" type="Timer" parent="."]
+wait_time = 0.15
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
+[connection signal="timeout" from="ITimer" to="." method="_on_ITimer_timeout"]
+[connection signal="timeout" from="IFlashTimer" to="." method="_on_IFlashTimer_timeout"]

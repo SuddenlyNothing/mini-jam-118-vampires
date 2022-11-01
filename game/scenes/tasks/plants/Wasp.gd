@@ -39,6 +39,7 @@ func _physics_process(delta: float) -> void:
 func get_hit() -> void:
 	if dead:
 		return
+	z_index = -1
 	dead = true
 	set_physics_process(false)
 	for c in collisions:
@@ -65,7 +66,6 @@ func get_hit() -> void:
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("hand"):
 		return
-	area.get_hit()
 	var bs := BloodSplatter.instance()
 	area.add_child(bs)
 	bs.global_position = blood_position.global_position
@@ -73,4 +73,5 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		t.kill()
 	t = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_property(anim_sprite, "rotation_degrees", attack_rot, 0.05)
+	t.tween_callback(area, "get_hit")
 	t.tween_property(anim_sprite, "rotation_degrees", 0.0, 0.2)

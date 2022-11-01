@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/art/ui/bloodbar_outline.png" type="Texture" id=1]
+[ext_resource path="res://assets/art/ui/bloodbar_bg.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/ui/bloodbar_red.png" type="Texture" id=3]
+[ext_resource path="res://scenes/hud/BloodBar.gd" type="Script" id=4]
+[ext_resource path="res://assets/shaders/hit_flash.tres" type="Material" id=5]
+[ext_resource path="res://scenes/hud/BossPlayer.tscn" type="PackedScene" id=6]
+
+[node name="BloodBar" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 4 )
+death_return_scene = "res://scenes/ChooseTask.tscn"
+dialog = [ [ "Hmm... You smell suspicious.", "Have you been near humans lately? Your scent is strong.", "Wipe yourself off and get back to work." ] ]
+
+[node name="Fade" type="ColorRect" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="BossPlayer" parent="Fade" instance=ExtResource( 6 )]
+
+[node name="M" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Bar" type="TextureProgress" parent="M"]
+material = ExtResource( 5 )
+margin_left = 551.0
+margin_right = 1369.0
+margin_bottom = 185.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+max_value = 1.0
+step = 0.0
+texture_under = ExtResource( 2 )
+texture_over = ExtResource( 1 )
+texture_progress = ExtResource( 3 )
+texture_progress_offset = Vector2( 130, 64 )
+
+[node name="ShakeTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="dialog_finished" from="Fade/BossPlayer" to="." method="_on_BossPlayer_dialog_finished"]
+[connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]

@@ -74,6 +74,7 @@ func increment_fill_level() -> void:
 
 func _on_Alligator_bit() -> void:
 	if position.x > hand_bit_threshold:
+		Variables.add_suspicion()
 		position.y = 570
 		z_index = -10
 		var bs := BloodSplatter.instance()

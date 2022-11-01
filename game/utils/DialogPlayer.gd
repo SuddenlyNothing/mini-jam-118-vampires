@@ -1,18 +1,19 @@
+class_name DialogPlayer
 extends Control
 
 signal dialog_finished
 
 const PAUSE_SYMBOLS := {
-	".": 13,
+	".": 8,
 	",": 5,
-	":": 10,
-	"!": 13,
-	"?": 13,
-	";": 10,
+	":": 6,
+	"!": 8,
+	"?": 8,
+	";": 6,
 }
 
 export(bool) var autoplay := false
-export(float) var read_speed: float = 30.0
+export(float) var read_speed: float = 40.0
 export(AudioStream) var default_audio
 export(Color) var default_color = Color.white
 export(String) var empty_dialog := "..."
@@ -24,9 +25,11 @@ var reading: bool = false
 var has_dialog: bool = false
 var curr_text: String = ""
 var t: SceneTreeTween
+var hint_t: SceneTreeTween
 
 onready var label := $"%RichTextLabel"
 onready var text_sfx := $TextSFX
+onready var hint := $"%Hint"
 
 
 func _ready() -> void:
@@ -34,14 +37,14 @@ func _ready() -> void:
 		read(autoplay_dialog)
 
 
-func _gui_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if has_dialog:
 		if event.is_action_pressed("continue", false, false):
 			if reading:
-				t.kill()
+				if t:
+					t.kill()
 				label.percent_visible = 1.0
-				reading = false
-				text_sfx.stop()
+				stop_reading()
 			else:
 				read_next()
 			accept_event()
@@ -77,6 +80,9 @@ func read_next() -> void:
 	
 	set_read_tween(new_dialog)
 	
+	if hint_t:
+		hint_t.kill()
+	hint.modulate.a = 0.0
 	reading = true
 
 
@@ -129,5 +135,11 @@ func update_keys():
 
 
 func stop_reading() -> void:
+	if hint_t:
+		hint_t.kill()
+	hint_t = create_tween().set_loops().set_ease(Tween.EASE_IN_OUT)\
+			.set_trans(Tween.TRANS_SINE)
+	hint_t.tween_property(hint, "modulate:a", 1.0, 1)
+	hint_t.tween_property(hint, "modulate:a", 0.5, 1)
 	reading = false
 	text_sfx.stop()

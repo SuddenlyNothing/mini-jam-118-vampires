@@ -29,6 +29,7 @@ unique_name_in_owner = true
 visible = false
 margin_right = 1880.0
 margin_bottom = 57.0
+rect_min_size = Vector2( 0, 117 )
 text = "Materials"
 align = 2
 valign = 1

@@ -15,6 +15,7 @@ offsets = PoolRealArray( 0, 0.455307 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1 )
 
 [node name="BloodSplatter" type="CPUParticles2D"]
+pause_mode = 2
 material = SubResource( 1 )
 emitting = false
 amount = 64

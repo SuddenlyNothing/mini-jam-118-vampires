@@ -49,6 +49,7 @@ func set_clamped_pos(new_pos: Vector2) -> void:
 
 
 func get_bit() -> void:
+	Variables.add_suspicion()
 	set_process(true)
 	shake_timer.start()
 	i_timer.start()

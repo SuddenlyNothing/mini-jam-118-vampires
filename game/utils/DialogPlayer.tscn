@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://utils/DialogPlayer.gd" type="Script" id=1]
 [ext_resource path="res://assets/sfx/text.ogg" type="AudioStream" id=2]
+[ext_resource path="res://utils/InputFormatLabel.tscn" type="PackedScene" id=3]
 
 [node name="DialogPlayer" type="Control" groups=["needs_keys"]]
 visible = false
@@ -14,13 +15,10 @@ default_audio = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_top = 400
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_constants/margin_top = 700
 
 [node name="ColorRect" type="ColorRect" parent="M"]
-margin_top = 400.0
+margin_top = 700.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 mouse_filter = 2
@@ -38,14 +36,39 @@ custom_constants/margin_bottom = 10
 [node name="RichTextLabel" type="RichTextLabel" parent="M/ColorRect/M"]
 unique_name_in_owner = true
 margin_left = 50.0
-margin_top = 311.0
+margin_top = 161.0
 margin_right = 1870.0
-margin_bottom = 369.0
+margin_bottom = 219.0
 rect_clip_content = false
-size_flags_vertical = 4
+size_flags_vertical = 6
 bbcode_enabled = true
 fit_content_height = true
 scroll_active = false
+
+[node name="V" type="VBoxContainer" parent="M/ColorRect/M"]
+margin_left = 50.0
+margin_top = 10.0
+margin_right = 1870.0
+margin_bottom = 370.0
+
+[node name="M2" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 390
+
+[node name="Hint" parent="M2" instance=ExtResource( 3 )]
+unique_name_in_owner = true
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 20.0
+margin_top = 633.0
+margin_right = 1900.0
+margin_bottom = 690.0
+size_flags_vertical = 8
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "Press {continue} to continue"
+autowrap = true
 
 [node name="TextSFX" type="AudioStreamPlayer" parent="."]
 bus = "SFX"

@@ -3,9 +3,9 @@ extends Node2D
 const Berry := preload("res://scenes/tasks/plants/Berry.tscn")
 
 export(int) var min_x := 200
-export(int) var max_x := 1720
+export(int) var max_x := 1650
 export(int) var num_berries := 2
-export(int) var min_dist := 50
+export(int) var min_dist := 200
 
 var spawned_positions := {}
 
