@@ -1,6 +1,6 @@
 Audio credits
 
-(not cc0)
+(attribution 4.0)
 Biting, Crunchy, B 
 by user InspectorJ
 https://freesound.org/people/InspectorJ/sounds/332407/
@@ -8,6 +8,10 @@ https://freesound.org/people/InspectorJ/sounds/332407/
 Snapping, Wooden Fence, I
 by user InspectorJ
 https://freesound.org/people/InspectorJ/sounds/352187/
+
+Chewing, Breadstick, Single, E
+by user InspectorJ
+https://freesound.org/people/InspectorJ/sounds/429598/
 
 (rest are cc0)
 Snarling Snake
