@@ -22,6 +22,8 @@ func _ready() -> void:
 		collision.call_deferred("set_disabled", false)
 	anim_sprite.play("walk")
 	speed = Variables.rng.randf_range(min_speed, max_speed)
+	move.pitch_scale = lerp(0.65, 1.0,
+			(speed - min_speed) / (max_speed - min_speed))
 	dir = position.direction_to(end_pos)
 	var dir_a := dir.angle() - PI / 2
 	anim_sprite.rotation = dir_a
