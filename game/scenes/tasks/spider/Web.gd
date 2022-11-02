@@ -6,8 +6,8 @@ const SpiderEggs := preload("res://scenes/tasks/spider/SpiderEgg.tscn")
 export(bool) var use_pre_hole_pos := false
 export(Vector2) var pre_hole_pos := Vector2()
 export(float) var duration := 1.0
-export(int) var max_spiders := 10
-export(int) var min_spiders := 2
+export(int) var min_spiders := 3
+export(int) var max_spiders := 9
 export(int) var max_eggs := 2
 
 var is_hand_inside := false

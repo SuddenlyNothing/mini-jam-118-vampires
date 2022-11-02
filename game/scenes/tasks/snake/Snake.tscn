@@ -47,7 +47,7 @@ animations = [ {
 extents = Vector2( 745, 71 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 84.5, 135 )
+extents = Vector2( 84.5, 100.5 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 93, 85 )
@@ -92,7 +92,7 @@ polygon = PoolVector2Array( 10, -67, 11, 67, 116, 67, 454, 6, 560, 17, 657, 71, 
 position = Vector2( -11, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( -66.5, 0 )
+position = Vector2( -66.5, 20.5 )
 shape = SubResource( 4 )
 
 [node name="AttackTimer" type="Timer" parent="."]

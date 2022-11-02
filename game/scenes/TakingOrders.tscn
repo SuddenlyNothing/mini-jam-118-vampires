@@ -17,7 +17,7 @@ color = Color( 0.270588, 0.184314, 0.0313726, 1 )
 
 [node name="Customer" parent="." instance=ExtResource( 1 )]
 position = Vector2( 158, 392 )
-spider_eggs = 1
+spider_eggs = 6
 snake_venom = 2
 hermit_crab_shell = 1
 

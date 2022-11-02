@@ -30,7 +30,7 @@ func try_attack() -> void:
 
 func attack() -> void:
 	queued_hit = false
-	steering = 5.0
+	steering = 3.0
 	swat_sfx.play()
 	move_t = create_tween()
 	move_t.tween_property(sprite, "scale", Vector2.ONE * 0.75, 0.1)
