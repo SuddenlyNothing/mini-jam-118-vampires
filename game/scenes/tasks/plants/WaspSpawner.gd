@@ -1,6 +1,6 @@
 extends Node2D
 
-const Wasp := preload("res://scenes/tasks/plants/Wasp.tscn")
+const WaspScene := preload("res://scenes/tasks/plants/Wasp.tscn")
 const BackgroundWasp := preload("res://scenes/tasks/plants/BackgroundWasp.tscn")
 
 export(int) var num_wasps := 7
@@ -32,7 +32,7 @@ func _on_SpawnTimer_timeout() -> void:
 
 func spawn_wasp() -> void:
 	Variables.rng.randomize()
-	var w := Wasp.instance()
+	var w := WaspScene.instance()
 	if Variables.rng.randf() > 0.5:
 		w.position.x = left_x
 		w.end_pos.x = right_x

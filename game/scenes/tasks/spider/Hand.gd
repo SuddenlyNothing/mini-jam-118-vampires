@@ -15,6 +15,7 @@ onready var shake_time: float = shake_timer.wait_time
 onready var collision := $CollisionPolygon2D
 onready var i_timer := $ITimer
 onready var i_flash_interval := $IFlashInterval
+onready var hurt_sfx := $HurtSFX
 
 
 func _ready() -> void:
@@ -50,6 +51,7 @@ func set_clamped_pos(new_pos: Vector2) -> void:
 
 func get_bit() -> void:
 	Variables.add_suspicion()
+	hurt_sfx.play()
 	set_process(true)
 	shake_timer.start()
 	i_timer.start()

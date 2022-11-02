@@ -19,7 +19,7 @@ onready var tilt_time: float = tilt_timer.wait_time
 onready var start_y := position.y
 onready var fake_sfx := $FakeSFX
 onready var hint_sfx := $HintSFX
-onready var bite_sfx := $BiteSFX
+onready var bite_no_harm_sfx := $BiteNoHarmSFX
 
 
 func start() -> void:
@@ -63,7 +63,7 @@ func _on_Alligator_frame_changed() -> void:
 	if animation == "close":
 		match frame:
 			1:
-				bite_sfx.play()
+				bite_no_harm_sfx.play()
 				if t:
 					t.kill()
 				position.y = start_y

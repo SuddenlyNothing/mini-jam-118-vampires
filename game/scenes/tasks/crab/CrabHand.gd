@@ -1,6 +1,7 @@
 extends Hand
 
 onready var grab_timer := $GrabTimer
+onready var grab_sfx := $GrabSFX
 
 
 func _on_CrabHand_area_entered(area: Area2D) -> void:
@@ -10,6 +11,7 @@ func _on_CrabHand_area_entered(area: Area2D) -> void:
 	collision.call_deferred("set_disabled", true)
 	grab_timer.start()
 	sprite.play("shell")
+	grab_sfx.play()
 
 
 func _on_GrabTimer_timeout() -> void:

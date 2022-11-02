@@ -144,7 +144,7 @@ animations = [ {
 
 [sub_resource type="RectangleShape2D" id=42]
 resource_local_to_scene = true
-extents = Vector2( 241, 299 )
+extents = Vector2( 286.5, 299 )
 
 [node name="AlligatorSalivaStation" instance=ExtResource( 1 )]
 
@@ -153,10 +153,12 @@ material = SubResource( 41 )
 next_scene = "res://scenes/tasks/AlligatorSaliva.tscn"
 
 [node name="Sprite" parent="SpriteSelect" index="0"]
+position = Vector2( 65, 21 )
 frames = SubResource( 43 )
 animation = "open"
 
 [node name="CollisionShape2D" parent="SpriteSelect" index="1"]
+position = Vector2( 45.5, 0 )
 shape = SubResource( 42 )
 
 [node name="Label" parent="Node2D/Control" index="0"]

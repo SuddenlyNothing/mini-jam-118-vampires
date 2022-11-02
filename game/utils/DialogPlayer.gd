@@ -139,7 +139,7 @@ func stop_reading() -> void:
 		hint_t.kill()
 	hint_t = create_tween().set_loops().set_ease(Tween.EASE_IN_OUT)\
 			.set_trans(Tween.TRANS_SINE)
-	hint_t.tween_property(hint, "modulate:a", 1.0, 1)
-	hint_t.tween_property(hint, "modulate:a", 0.5, 1)
+	hint_t.tween_property(hint, "modulate:a", 1.0, 1).set_delay(0.5)
+	hint_t.tween_property(hint, "modulate:a", 0.5, 0.5)
 	reading = false
 	text_sfx.stop()

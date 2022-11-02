@@ -16,6 +16,7 @@ onready var anim_sprite := $AnimatedSprite
 onready var hitbox_collision := $Hitbox/CollisionShape2D
 onready var i_timer := $ITimer
 onready var i_flash_timer := $IFlashTimer
+onready var grab_sfx := $GrabSFX
 
 
 func _process(delta: float) -> void:
@@ -60,6 +61,7 @@ func _on_Hitbox_area_entered(area: Area2D) -> void:
 		return
 	if not area.is_in_group("berry"):
 		return
+	grab_sfx.play()
 	picking = true
 	area.queue_free()
 	anim_sprite.play("berry")

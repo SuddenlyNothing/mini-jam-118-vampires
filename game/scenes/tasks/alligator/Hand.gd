@@ -17,6 +17,7 @@ onready var fill := $Fill
 onready var pickup_collision := $Area2D/CollisionShape2D
 onready var drip := $Drip
 onready var collect := $Collect
+onready var bite_sfx := $BiteSFX
 
 
 func _ready() -> void:
@@ -74,6 +75,7 @@ func increment_fill_level() -> void:
 
 func _on_Alligator_bit() -> void:
 	if position.x > hand_bit_threshold:
+		bite_sfx.play()
 		Variables.add_suspicion()
 		position.y = 570
 		z_index = -10

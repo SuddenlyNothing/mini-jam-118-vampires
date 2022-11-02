@@ -17,6 +17,7 @@ onready var anim_sprite := $AnimatedSprite
 onready var collisions := [$CollisionShape2D, $Hitbox/CollisionShape2D]
 onready var anim_player := $AnimationPlayer
 onready var blood_position := $AnimatedSprite/BloodPosition
+onready var sting := $Sting
 
 
 func _ready() -> void:
@@ -34,6 +35,12 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 	else:
 		position += position.direction_to(end_pos) * move_amount
+
+
+func spawn_bs(area: Area2D) -> void:
+	var bs := BloodSplatter.instance()
+	area.add_child(bs)
+	bs.global_position = blood_position.global_position
 
 
 func get_hit() -> void:
@@ -66,12 +73,11 @@ func get_hit() -> void:
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("hand"):
 		return
-	var bs := BloodSplatter.instance()
-	area.add_child(bs)
-	bs.global_position = blood_position.global_position
 	if t:
 		t.kill()
 	t = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	t.tween_property(anim_sprite, "rotation_degrees", attack_rot, 0.05)
 	t.tween_callback(area, "get_hit")
+	t.tween_callback(self, "spawn_bs", [area])
+	t.tween_callback(sting, "play")
 	t.tween_property(anim_sprite, "rotation_degrees", 0.0, 0.2)

@@ -9,7 +9,17 @@
 [node name="InputFormatLabel" parent="Control/M" index="0"]
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 
+[node name="Label" parent="HUD/OrderRenderer/M/V" index="0"]
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+
+[node name="Label" parent="HUD/MaterialsCollected/M/V" index="0"]
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+
 [node name="Sand" parent="." index="3" instance=ExtResource( 2 )]
 
 [node name="CrabHand" parent="." index="4" instance=ExtResource( 3 )]
 position = Vector2( 968, 474 )
+
+[editable path="HUD"]
+[editable path="HUD/OrderRenderer"]
+[editable path="HUD/MaterialsCollected"]

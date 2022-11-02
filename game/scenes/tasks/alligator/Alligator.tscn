@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/art/alligator/alli_closed.png" type="Texture" id=3]
 [ext_resource path="res://assets/sfx/alligator/alligator_warning.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sfx/alligator/alligator_pre_bite.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/sfx/alligator/alligator_bite.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/alligator/alligator_bite_no_hand.wav" type="AudioStream" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -26,8 +26,8 @@ audio_stream = ExtResource( 4 )
 [sub_resource type="AudioStreamRandomPitch" id=3]
 audio_stream = ExtResource( 5 )
 
-[sub_resource type="AudioStreamRandomPitch" id=4]
-audio_stream = ExtResource( 6 )
+[sub_resource type="AudioStreamRandomPitch" id=5]
+audio_stream = ExtResource( 7 )
 
 [node name="Alligator" type="AnimatedSprite"]
 position = Vector2( 2330, 593 )
@@ -155,9 +155,10 @@ bus = "SFX"
 stream = SubResource( 3 )
 bus = "SFX"
 
-[node name="BiteSFX" type="AudioStreamPlayer" parent="."]
+[node name="BiteNoHarmSFX" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = SubResource( 4 )
+stream = SubResource( 5 )
+volume_db = 10.0
 bus = "SFX"
 
 [connection signal="animation_finished" from="." to="." method="_on_Alligator_animation_finished"]

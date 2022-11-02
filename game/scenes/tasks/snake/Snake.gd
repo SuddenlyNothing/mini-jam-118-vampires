@@ -32,6 +32,10 @@ onready var hitbox := $Hitbox
 onready var blood_pos := $BloodPosition
 onready var shake_timer := $ShakeTimer
 onready var shake_time: float = shake_timer.wait_time
+onready var attack_sfx := $AttackSFX
+onready var bit_sfx := $BitSFX
+onready var death_sfx := $DeathSFX
+onready var hiss_sfx := $HissSFX
 
 
 func _ready() -> void:
@@ -60,6 +64,8 @@ func move_to_rand_pos() -> void:
 			.set_trans(Tween.TRANS_QUAD)
 	Variables.rng.randomize()
 	if Variables.rng.randf() > 0.8:
+		if head.animation != "open" and not hiss_sfx.playing:
+			hiss_sfx.play()
 		head.play("open")
 	else:
 		head.play("close")
@@ -76,6 +82,8 @@ func move_to_rand_pos() -> void:
 func attack() -> void:
 	if move_t:
 		move_t.kill()
+	attack_sfx.play()
+	hiss_sfx.stop()
 	head.play("open")
 	body.play("straight")
 	straight_collision.call_deferred("set_disabled", false)
@@ -111,6 +119,7 @@ func bite() -> void:
 		bs.global_position = blood_pos.global_position
 		hand.get_hit()
 		z_index = 1
+		bit_sfx.play()
 
 
 func get_hit() -> void:
@@ -123,11 +132,14 @@ func get_hit() -> void:
 	set_process(true)
 	shake_timer.start()
 	if health <= 0:
+		death_sfx.play()
 		died = true
 		if move_t:
 			move_t.kill()
 		attack_timer.stop()
 		head.play("dead")
+		attack_sfx.stop()
+		hiss_sfx.stop()
 		move_t = create_tween().set_ease(Tween.EASE_IN)\
 				.set_trans(Tween.TRANS_BACK)
 		move_t.tween_property(self, "position:y", dead_y,

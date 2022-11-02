@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/art/snake/snake_head_open.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/snake/snake_head_closed.png" type="Texture" id=2]
@@ -7,6 +7,10 @@
 [ext_resource path="res://scenes/tasks/snake/Snake.gd" type="Script" id=5]
 [ext_resource path="res://assets/shaders/hit_flash.tres" type="Material" id=6]
 [ext_resource path="res://assets/art/snake/snake_head_dead.png" type="Texture" id=7]
+[ext_resource path="res://assets/sfx/snake/snake_attacks.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sfx/snake/snake_bites_hand.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sfx/snake/snake_bite.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/sfx/snake/snake_dies.wav" type="AudioStream" id=11]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -43,10 +47,22 @@ animations = [ {
 extents = Vector2( 745, 71 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 84.5, 72 )
+extents = Vector2( 84.5, 135 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 93, 85 )
+
+[sub_resource type="AudioStreamRandomPitch" id=8]
+audio_stream = ExtResource( 8 )
+
+[sub_resource type="AudioStreamRandomPitch" id=9]
+audio_stream = ExtResource( 10 )
+
+[sub_resource type="AudioStreamRandomPitch" id=7]
+audio_stream = ExtResource( 9 )
+
+[sub_resource type="AudioStreamRandomPitch" id=6]
+audio_stream = ExtResource( 11 )
 
 [node name="Snake" type="Area2D"]
 position = Vector2( 1083, 296 )
@@ -92,6 +108,24 @@ shape = SubResource( 5 )
 [node name="ShakeTimer" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
+
+[node name="AttackSFX" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = SubResource( 8 )
+bus = "SFX"
+
+[node name="HissSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 9 )
+bus = "SFX"
+
+[node name="BitSFX" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = SubResource( 7 )
+bus = "SFX"
+
+[node name="DeathSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 6 )
+bus = "SFX"
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_Hitbox_area_exited"]
