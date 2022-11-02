@@ -45,12 +45,12 @@ func set_suspicion() -> void:
 			t.set_parallel(false)
 			t.tween_property(fade, "modulate:a", 1.0, 1.0)
 			t.tween_callback(boss_player, "read", [dialog[0]])
-	else: # only happens when we increase the max suspicion
+	else: # only happens when we increase the max suspicion or decrease suspicion
 		if t:
 			t.kill()
 		t = create_tween()
-		t.parallel().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)\
-				.tween_property(bar, "value", new_value, 1)
+		t.parallel().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)\
+				.tween_property(bar, "value", new_value, 2)
 		t.tween_callback(SceneHandler, "goto_scene", [death_return_scene])
 
 

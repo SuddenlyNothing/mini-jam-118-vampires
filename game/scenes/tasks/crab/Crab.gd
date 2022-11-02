@@ -2,7 +2,7 @@ extends Area2D
 
 export(Vector2) var end_pos
 export(float) var min_speed := 150.0
-export(float) var max_speed := 400.0
+export(float) var max_speed := 500.0
 export(bool) var guarantee_shell := false
 
 var speed := 0.0

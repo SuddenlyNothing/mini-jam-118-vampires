@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/environment/SpriteSelect.gd" type="Script" id=3]
+[ext_resource path="res://scenes/environment/SpriteSelect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/materials/Material.gd" type="Script" id=2]
 
-[sub_resource type="Shader" id=40]
+[sub_resource type="Shader" id=42]
 code = "shader_type canvas_item;
 render_mode unshaded;
 
@@ -122,14 +123,12 @@ void fragment()
 
 [sub_resource type="ShaderMaterial" id=41]
 resource_local_to_scene = true
-shader = SubResource( 40 )
+shader = SubResource( 42 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[node name="SpriteSelect" type="Area2D" groups=["sprite_select"]]
+[node name="Material" groups=["material"] instance=ExtResource( 1 )]
 material = SubResource( 41 )
-script = ExtResource( 3 )
-
-[connection signal="mouse_entered" from="." to="." method="_on_SpriteSelect_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_SpriteSelect_mouse_exited"]
-[connection signal="tree_exiting" from="." to="." method="_on_SpriteSelect_tree_exiting"]
+script = ExtResource( 2 )
+pickable = true
+material_type = ""

@@ -85,7 +85,6 @@ shape = SubResource( 5 )
 [node name="Sting" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 stream = SubResource( 6 )
-volume_db = -5.0
 pitch_scale = 0.7
 bus = "SFX"
 

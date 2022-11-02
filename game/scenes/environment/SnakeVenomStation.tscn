@@ -152,5 +152,12 @@ frames = SubResource( 43 )
 [node name="CollisionShape2D" parent="SpriteSelect" index="1"]
 shape = SubResource( 42 )
 
+[node name="Control" parent="Node2D" index="0"]
+visible = true
+margin_top = 95.0
+margin_bottom = 194.0
+
 [node name="Label" parent="Node2D/Control" index="0"]
+margin_top = -21.0
+margin_bottom = -21.0
 text = "Snake"

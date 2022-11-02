@@ -1,47 +1,156 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://scenes/characters/Customer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/hud/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://utils/AnimatedButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/themes/gameplay.tres" type="Theme" id=4]
 [ext_resource path="res://scenes/TakingOrders.gd" type="Script" id=5]
+[ext_resource path="res://assets/art/shop/shop_background.png" type="Texture" id=6]
+[ext_resource path="res://assets/art/shop/shop counter.png" type="Texture" id=7]
+[ext_resource path="res://scenes/environment/PotionCreation.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Shader" id=40]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform float line_scale : hint_range(0, 4) = 1.0;
+
+//If not using a texture, will blend between these two colors
+uniform vec4 outline_color : hint_color;
+
+varying vec2 o;
+varying vec2 f;
+
+void vertex()
+{
+	//Expands the vertexes so we have space to draw the outline if we were on the edge.
+	o = VERTEX;
+	vec2 uv = (UV - 0.5);
+	VERTEX += uv * line_scale * TEXTURE_PIXEL_SIZE * 100.0;
+	f = VERTEX;
+}
+
+void fragment()
+{
+	ivec2 t = textureSize(TEXTURE, 0);
+	vec2 regular_uv;
+	regular_uv.x = UV.x + (f.x - o.x)/float(t.x);
+	regular_uv.y = UV.y + (f.y - o.y)/float(t.y);
+	
+	vec4 regular_color = texture(TEXTURE, regular_uv);
+	
+	if((regular_uv.x < 0.0 || regular_uv.x > 1.0) || (regular_uv.y < 0.0 || regular_uv.y > 1.0) || 
+			regular_color.a < min(line_scale, 0.25)){
+		regular_color = vec4(0.0); 
+	}
+	
+	vec2 ps = TEXTURE_PIXEL_SIZE * line_scale;
+	
+	vec4 final_color = regular_color;
+	if (regular_color.a <= 0.0)
+	{
+		vec2 outline_uv = regular_uv + vec2(-1.0 * ps.x, -1.0 * ps.y); 
+		//Sample here, if we are out of bounds then fail
+		vec4 outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			//We aren't a real color
+			outline_sample = vec4(0);
+		}
+		//Is our sample empty? Is there something nearby?
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+	}
+	COLOR = final_color; 
+}"
+
+[sub_resource type="ShaderMaterial" id=41]
+resource_local_to_scene = true
+shader = SubResource( 40 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
 
 [node name="TakingOrders" type="Node2D"]
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 806.0, 1047.0 ],
+"_edit_vertical_guides_": [ 1739.0 ]
+}
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_top = 732.0
-margin_right = 1920.0
-margin_bottom = 1080.0
-color = Color( 0.270588, 0.184314, 0.0313726, 1 )
-
-[node name="Customer" parent="." instance=ExtResource( 1 )]
-position = Vector2( 158, 392 )
-spider_eggs = 6
-snake_venom = 2
-hermit_crab_shell = 1
-
-[node name="Customer2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 414, 529 )
-customer_name = "Bob"
-snake_venom = 4
-alligator_saliva = 1
-hermit_crab_shell = 3
-
-[node name="Customer3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 939, 498 )
-customer_name = "Karen"
-alligator_saliva = 1
-fruit = 5
-
-[node name="Customer4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1640, 438 )
-customer_name = "Sarah"
-spider_eggs = 3
-snake_venom = 1
-hermit_crab_shell = 2
+[node name="ShopBackground" type="Sprite" parent="."]
+texture = ExtResource( 6 )
+centered = false
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
+
+[node name="ShopCounter" type="Sprite" parent="."]
+texture = ExtResource( 7 )
+centered = false
+
+[node name="PotionCreation" parent="." instance=ExtResource( 8 )]
+material = SubResource( 41 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -69,3 +178,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "View Tasks"
 next_scene = "res://scenes/ChooseTask.tscn"
+
+[connection signal="tree_exited" from="PotionCreation" to="PotionCreation" method="_on_SpriteSelect_tree_exited"]
+[connection signal="pressed" from="Control/M/Tasks" to="." method="_on_Tasks_pressed"]

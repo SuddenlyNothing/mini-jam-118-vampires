@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/grunt01.wav-64e5fffbe0a2271008c744456f10f1a2.sample"
+path="res://.import/set_down.wav-0ed8a2dab27b1c1847646d43b2775cb1.sample"
 
 [deps]
 
-source_file="res://assets/sfx/shop/grunt01.wav"
-dest_files=[ "res://.import/grunt01.wav-64e5fffbe0a2271008c744456f10f1a2.sample" ]
+source_file="res://assets/sfx/shop/set_down.wav"
+dest_files=[ "res://.import/set_down.wav-0ed8a2dab27b1c1847646d43b2775cb1.sample" ]
 
 [params]
 

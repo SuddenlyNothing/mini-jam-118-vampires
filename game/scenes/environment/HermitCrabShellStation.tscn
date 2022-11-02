@@ -153,4 +153,4 @@ frames = SubResource( 43 )
 shape = SubResource( 42 )
 
 [node name="Label" parent="Node2D/Control" index="0"]
-text = "Hermit Crab Shells"
+text = "Shells"

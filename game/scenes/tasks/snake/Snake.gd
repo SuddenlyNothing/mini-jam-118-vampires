@@ -4,7 +4,7 @@ signal died
 
 const BloodSplatter := preload("res://scenes/particles/BloodSplatter.tscn")
 
-export(int) var health := 10
+export(int) var health := 7
 export(int) var speed := 300
 export(int) var retreat_speed := 800
 export(int) var attack_speed := 2000

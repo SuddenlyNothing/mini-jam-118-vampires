@@ -1,5 +1,7 @@
 extends Node2D
 
+signal clicked
+
 const SpiderEggIcon := preload(
 	"res://scenes/characters/ingredient_icons/SpiderEggIcon.tscn"
 )
@@ -106,6 +108,7 @@ func _on_SpriteSelect_unhovered() -> void:
 
 
 func _on_SpriteSelect_clicked() -> void:
+	emit_signal("clicked")
 	Variables.order = {
 		"name": customer_name,
 		"spider_eggs": spider_eggs,

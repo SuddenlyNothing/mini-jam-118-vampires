@@ -1,0 +1,673 @@
+[gd_scene load_steps=36 format=2]
+
+[ext_resource path="res://scenes/environment/SpriteSelect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0033.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/shop/pestle.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/shop/mortar_front.png" type="Texture" id=4]
+[ext_resource path="res://scenes/environment/PotionCreation.gd" type="Script" id=5]
+[ext_resource path="res://assets/sfx/shop/add_ingredient_to_mp.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0032.png" type="Texture" id=7]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0028.png" type="Texture" id=8]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0030.png" type="Texture" id=9]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0029.png" type="Texture" id=10]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0018.png" type="Texture" id=11]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0020.png" type="Texture" id=12]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0019.png" type="Texture" id=13]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0027.png" type="Texture" id=14]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0031.png" type="Texture" id=15]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0026.png" type="Texture" id=16]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0025.png" type="Texture" id=17]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0024.png" type="Texture" id=18]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0023.png" type="Texture" id=19]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0022.png" type="Texture" id=20]
+[ext_resource path="res://assets/art/shop/liquid/bottle_0021.png" type="Texture" id=21]
+[ext_resource path="res://assets/sfx/shop/liquid_pour.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/sfx/shop/mortar_pestle_grind.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/art/shop/cork.png" type="Texture" id=24]
+[ext_resource path="res://assets/sfx/shop/cork.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/sfx/shop/set_down.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/art/shop/mortar_back.png" type="Texture" id=27]
+[ext_resource path="res://assets/art/shop/mortar.png" type="Texture" id=28]
+
+[sub_resource type="Shader" id=40]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform float line_scale : hint_range(0, 4) = 1.0;
+
+//If not using a texture, will blend between these two colors
+uniform vec4 outline_color : hint_color;
+
+varying vec2 o;
+varying vec2 f;
+
+void vertex()
+{
+	//Expands the vertexes so we have space to draw the outline if we were on the edge.
+	o = VERTEX;
+	vec2 uv = (UV - 0.5);
+	VERTEX += uv * line_scale * TEXTURE_PIXEL_SIZE * 100.0;
+	f = VERTEX;
+}
+
+void fragment()
+{
+	ivec2 t = textureSize(TEXTURE, 0);
+	vec2 regular_uv;
+	regular_uv.x = UV.x + (f.x - o.x)/float(t.x);
+	regular_uv.y = UV.y + (f.y - o.y)/float(t.y);
+	
+	vec4 regular_color = texture(TEXTURE, regular_uv);
+	
+	if((regular_uv.x < 0.0 || regular_uv.x > 1.0) || (regular_uv.y < 0.0 || regular_uv.y > 1.0) || 
+			regular_color.a < min(line_scale, 0.25)){
+		regular_color = vec4(0.0); 
+	}
+	
+	vec2 ps = TEXTURE_PIXEL_SIZE * line_scale;
+	
+	vec4 final_color = regular_color;
+	if (regular_color.a <= 0.0)
+	{
+		vec2 outline_uv = regular_uv + vec2(-1.0 * ps.x, -1.0 * ps.y); 
+		//Sample here, if we are out of bounds then fail
+		vec4 outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			//We aren't a real color
+			outline_sample = vec4(0);
+		}
+		//Is our sample empty? Is there something nearby?
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(-1.0 * ps.x, 0.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, -1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+		
+		outline_uv = regular_uv + vec2(0.0 * ps.x, 1.0 * ps.y); 
+		outline_sample = texture(TEXTURE, outline_uv);
+		if((outline_uv.x < 0.0 || outline_uv.x > 1.0) || (outline_uv.y < 0.0 || outline_uv.y > 1.0)){
+			outline_sample = vec4(0);
+		}
+		if(outline_sample.a > final_color.a){
+			final_color = outline_color;
+		}
+	}
+	COLOR = final_color; 
+}"
+
+[sub_resource type="ShaderMaterial" id=41]
+resource_local_to_scene = true
+shader = SubResource( 40 )
+shader_param/line_scale = 0.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="SpriteFrames" id=44]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 15 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 11 ) ],
+"loop": false,
+"name": "fill",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=42]
+extents = Vector2( 233.5, 185.5 )
+
+[sub_resource type="AudioStreamRandomPitch" id=43]
+audio_stream = ExtResource( 6 )
+
+[sub_resource type="Animation" id=46]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pestle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 463, 947 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Grind:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Pestle:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Mortar:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 310, 874 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Mortar:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Polygon2D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Bottle:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Bottle:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Pour:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Cork:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("CorkSFX:playing")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Cork:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 459, 365 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("SetDown:playing")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Polygon2D:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -39 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Mortar/MortarFront:z_index")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Polygon2D:polygon")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ PoolVector2Array( 440, 887.467, 432, 887.467, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Mortar2:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=45]
+resource_name = "brew"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pestle:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 390, 736 ), Vector2( 237, 736 ), Vector2( 463, 947 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Grind:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Pestle:rotation_degrees")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, -75.0, 2.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Mortar:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.9, 1.6, 3.9, 4.4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 310, 874 ), Vector2( 310, 295 ), Vector2( 310, 295 ), Vector2( 170, 295 ), Vector2( 310, 874 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Mortar:rotation_degrees")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.9, 1.6, 2, 3.9, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 90.0, 90.0, 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Polygon2D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Bottle:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 2, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 0, 15 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Pour:playing")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Cork:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 5.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("CorkSFX:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 5.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Cork:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 5.2, 5.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 459, 365 ), Vector2( 459, 365 ), Vector2( 459, 479 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("SetDown:playing")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Polygon2D:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 2, 2.1, 3.2, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -39 ), Vector2( -0.2, -40 ), Vector2( -2.4, -4 ), Vector2( -3, 1 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Mortar/MortarFront:z_index")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.5, 1.9, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 0, 10, 0 ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Polygon2D:polygon")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 2, 2.2, 2.5, 2.8, 3.1, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ PoolVector2Array( 440, 887.467, 432, 887.467, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ), PoolVector2Array( 440, 881.933, 432, 881.933, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ), PoolVector2Array( 440, 874.333, 432, 874.333, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ), PoolVector2Array( 440, 866.733, 432, 866.733, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ), PoolVector2Array( 440, 859.133, 432, 859.133, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ), PoolVector2Array( 440, 849, 432, 849, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Mortar2:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 5.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="PotionCreation" instance=ExtResource( 1 )]
+material = SubResource( 41 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_vertical_guides_": [ 529.0 ]
+}
+
+[node name="Cork" type="Sprite" parent="." index="0"]
+visible = false
+position = Vector2( 459, 365 )
+texture = ExtResource( 24 )
+
+[node name="Bottle" type="AnimatedSprite" parent="." index="1"]
+use_parent_material = true
+position = Vector2( 440, 672 )
+frames = SubResource( 44 )
+animation = "fill"
+
+[node name="Mortar" type="Sprite" parent="." index="2"]
+position = Vector2( 310, 874 )
+texture = ExtResource( 27 )
+
+[node name="MortarFront" type="Sprite" parent="Mortar" index="0"]
+texture = ExtResource( 4 )
+
+[node name="Mortar2" type="Sprite" parent="." index="3"]
+use_parent_material = true
+position = Vector2( 309, 878 )
+texture = ExtResource( 28 )
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="4"]
+visible = false
+position = Vector2( 0, -39 )
+color = Color( 0.427451, 0.0588235, 0.0509804, 1 )
+polygon = PoolVector2Array( 440, 887.467, 432, 887.467, 432, 416, 400, 400, 368, 400, 384, 384, 416, 384, 448, 400 )
+
+[node name="Pestle" type="Sprite" parent="." index="5"]
+use_parent_material = true
+position = Vector2( 463, 947 )
+rotation = 0.0349066
+texture = ExtResource( 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="6"]
+visible = false
+polygon = PoolVector2Array( 213, 997, 260, 1013, 369, 1014, 372, 1046, 396, 1063, 429, 1054, 546, 870, 562, 870, 561, 854, 605, 793, 604, 723, 552, 644, 506, 589, 499, 501, 508, 484, 400, 489, 414, 510, 422, 569, 398, 614, 311, 677, 282, 727, 198, 741, 157, 774, 180, 918, 216, 958 )
+
+[node name="Area2D" type="Area2D" parent="." index="7"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2( 236.5, 892.5 )
+shape = SubResource( 42 )
+
+[node name="AddIngredient" type="AudioStreamPlayer" parent="." index="8"]
+stream = SubResource( 43 )
+bus = "SFX"
+
+[node name="Pour" type="AudioStreamPlayer" parent="." index="9"]
+stream = ExtResource( 22 )
+bus = "SFX"
+
+[node name="Grind" type="AudioStreamPlayer" parent="." index="10"]
+stream = ExtResource( 23 )
+bus = "SFX"
+
+[node name="CorkSFX" type="AudioStreamPlayer" parent="." index="11"]
+stream = ExtResource( 25 )
+bus = "SFX"
+
+[node name="SetDown" type="AudioStreamPlayer" parent="." index="12"]
+stream = ExtResource( 26 )
+bus = "SFX"
+
+[node name="Block" type="ColorRect" parent="." index="13"]
+visible = false
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 1, 1, 1, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
+anims/RESET = SubResource( 46 )
+anims/brew = SubResource( 45 )
+
+[node name="Node2D" type="Node2D" parent="." index="15"]
+z_index = 20
+
+[node name="Label" type="Label" parent="Node2D" index="0"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 243.0
+margin_top = 388.0
+margin_right = 532.0
+margin_bottom = 445.0
+text = "Create Potion"
+
+[connection signal="clicked" from="." to="." method="_on_PotionCreation_clicked"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/grunt_deep01.wav-4404598a8bcbf2000fef75c99c6d2cbc.sample"
+path="res://.import/cork.wav-1ee316d5f373fbc4cd8f019ba1a84747.sample"
 
 [deps]
 
-source_file="res://assets/sfx/shop/grunt_deep01.wav"
-dest_files=[ "res://.import/grunt_deep01.wav-4404598a8bcbf2000fef75c99c6d2cbc.sample" ]
+source_file="res://assets/sfx/shop/cork.wav"
+dest_files=[ "res://.import/cork.wav-1ee316d5f373fbc4cd8f019ba1a84747.sample" ]
 
 [params]
 

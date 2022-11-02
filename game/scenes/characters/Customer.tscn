@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/environment/SpriteSelect.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/vampires/her.png" type="Texture" id=2]
 [ext_resource path="res://scenes/characters/Customer.gd" type="Script" id=3]
 [ext_resource path="res://assets/themes/gameplay.tres" type="Theme" id=4]
+[ext_resource path="res://assets/art/vampires/posh_man.png" type="Texture" id=5]
+[ext_resource path="res://assets/art/vampires/stoner.png" type="Texture" id=6]
 
 [sub_resource type="Shader" id=40]
 code = "shader_type canvas_item;
@@ -129,8 +131,26 @@ shader = SubResource( 40 )
 shader_param/line_scale = 0.0
 shader_param/outline_color = Color( 0.960784, 0.964706, 0.94902, 1 )
 
+[sub_resource type="SpriteFrames" id=43]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "her",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "posh",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "stoner",
+"speed": 5.0
+} ]
+
 [sub_resource type="RectangleShape2D" id=42]
-extents = Vector2( 32, 32 )
+extents = Vector2( 212, 335 )
 
 [node name="Customer" type="Node2D"]
 script = ExtResource( 3 )
@@ -138,12 +158,13 @@ script = ExtResource( 3 )
 [node name="SpriteSelect" parent="." instance=ExtResource( 1 )]
 material = SubResource( 41 )
 
-[node name="Sprite" type="Sprite" parent="SpriteSelect"]
-show_behind_parent = true
+[node name="Sprite" type="AnimatedSprite" parent="SpriteSelect"]
 use_parent_material = true
-texture = ExtResource( 2 )
+frames = SubResource( 43 )
+animation = "her"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpriteSelect"]
+position = Vector2( 0, -41 )
 shape = SubResource( 42 )
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -174,8 +195,8 @@ custom_constants/margin_bottom = 15
 [node name="V" type="VBoxContainer" parent="Node2D/Dialog/M"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 160.0
-margin_bottom = 48.0
+margin_right = 262.0
+margin_bottom = 72.0
 mouse_filter = 2
 custom_constants/separation = 4
 

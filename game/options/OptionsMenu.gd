@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 var active : bool = false setget set_active
+var paused_before := false
 
 
 # Toggles option menu on "pause" press.
@@ -24,4 +25,6 @@ func _input(event: InputEvent) -> void:
 func set_active(val: bool) -> void:
 	active = val
 	visible = val
-	get_tree().paused = val
+	if val:
+		paused_before = get_tree().paused
+	get_tree().paused = val or paused_before

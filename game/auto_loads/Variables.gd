@@ -30,6 +30,8 @@ var materials := {
 	"fruit": 0,
 }
 
+var material_positions := []
+
 var suspicion: int = 0 setget set_suspicion
 var max_suspicion: int = 3 setget set_max_suspicion
 
@@ -43,6 +45,11 @@ func set_order(val: Dictionary) -> void:
 
 func add_material(mat: String, amount: int = 1) -> void:
 	materials[mat] = min(materials[mat] + amount, 20)
+	for _i in amount:
+		material_positions.append([mat, Vector2(
+			Variables.rng.randf_range(660, 1740),
+			Variables.rng.randf_range(810, 1050)
+		), true])
 	emit_signal("materials_updated")
 
 
