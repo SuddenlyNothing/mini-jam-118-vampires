@@ -10,23 +10,23 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 25
 script = ExtResource( 1 )
-font_path = "res://assets/fonts/roboto_regular.ttf"
+font_path = "res://assets/fonts/amaticsc-bold.ttf"
 
 [node name="M" type="MarginContainer" parent="."]
 margin_right = 1920.0
-margin_bottom = 63.0
+margin_bottom = 88.0
 custom_constants/margin_right = 10
 custom_constants/margin_left = 10
 
 [node name="ResetAll" parent="M" instance=ExtResource( 3 )]
-margin_left = 1585.0
+margin_left = 1632.0
 margin_right = 1910.0
-margin_bottom = 63.0
+margin_bottom = 88.0
 size_flags_horizontal = 8
 text = "Reset Controls"
 
 [node name="S" type="ScrollContainer" parent="."]
-margin_top = 88.0
+margin_top = 113.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 size_flags_horizontal = 3
@@ -35,7 +35,7 @@ scroll_horizontal_enabled = false
 
 [node name="M" type="MarginContainer" parent="S"]
 margin_right = 1920.0
-margin_bottom = 992.0
+margin_bottom = 967.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 10
@@ -46,9 +46,8 @@ custom_constants/margin_left = 10
 margin_left = 10.0
 margin_top = 5.0
 margin_right = 1910.0
-margin_bottom = 992.0
+margin_bottom = 967.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 10
 
 [connection signal="pressed" from="M/ResetAll" to="." method="_on_ResetAll_pressed"]

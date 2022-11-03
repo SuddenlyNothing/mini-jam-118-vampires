@@ -170,8 +170,8 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
 [node name="Tasks" parent="Control/M" instance=ExtResource( 3 )]
-margin_left = 1651.0
-margin_top = 999.0
+margin_left = 1713.0
+margin_top = 974.0
 margin_right = 1900.0
 margin_bottom = 1060.0
 size_flags_horizontal = 8

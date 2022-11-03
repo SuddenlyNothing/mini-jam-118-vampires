@@ -98,7 +98,7 @@ window/stretch/aspect="keep"
 
 [gui]
 
-theme/custom_font="res://assets/fonts/default_font.tres"
+theme/custom_font="res://assets/fonts/asc.tres"
 
 [input]
 
