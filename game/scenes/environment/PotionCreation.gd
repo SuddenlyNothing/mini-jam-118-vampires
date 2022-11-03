@@ -8,7 +8,7 @@ var materials := {
 	"fruit": 0,
 }
 
-onready var label := $Label
+onready var label := $Node2D/Label
 onready var add_ingredient := $AddIngredient
 onready var pour := $Pour
 onready var grind := $Grind

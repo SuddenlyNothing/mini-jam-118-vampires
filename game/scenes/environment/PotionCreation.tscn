@@ -521,10 +521,10 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 5 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.9, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, true ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Polygon2D:position")
@@ -545,7 +545,7 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 0, 0.5, 1.9, 4.5 ),
+"times": PoolRealArray( 0, 0.5, 1.9, 3.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 10, 0, 10, 0 ]
@@ -593,17 +593,17 @@ position = Vector2( 440, 672 )
 frames = SubResource( 44 )
 animation = "fill"
 
-[node name="Mortar" type="Sprite" parent="." index="2"]
+[node name="Mortar2" type="Sprite" parent="." index="2"]
+use_parent_material = true
+position = Vector2( 309, 878 )
+texture = ExtResource( 28 )
+
+[node name="Mortar" type="Sprite" parent="." index="3"]
 position = Vector2( 310, 874 )
 texture = ExtResource( 27 )
 
 [node name="MortarFront" type="Sprite" parent="Mortar" index="0"]
 texture = ExtResource( 4 )
-
-[node name="Mortar2" type="Sprite" parent="." index="3"]
-use_parent_material = true
-position = Vector2( 309, 878 )
-texture = ExtResource( 28 )
 
 [node name="Polygon2D" type="Polygon2D" parent="." index="4"]
 visible = false
@@ -662,11 +662,13 @@ z_index = 20
 
 [node name="Label" type="Label" parent="Node2D" index="0"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 243.0
-margin_top = 388.0
-margin_right = 532.0
-margin_bottom = 445.0
+margin_left = 58.0
+margin_top = 527.0
+margin_right = 347.0
+margin_bottom = 584.0
 text = "Create Potion"
+align = 1
+valign = 1
 
 [connection signal="clicked" from="." to="." method="_on_PotionCreation_clicked"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

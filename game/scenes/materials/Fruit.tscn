@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/materials/Material.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/art/wasps/berry_1.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/shop/ingredients/berry.png" type="Texture" id=2]
 
 [sub_resource type="Shader" id=42]
 code = "shader_type canvas_item;
@@ -133,8 +133,7 @@ material_type = "fruit"
 
 [node name="Berry1" type="Sprite" parent="." index="0"]
 use_parent_material = true
-position = Vector2( 0, -45 )
 texture = ExtResource( 2 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
-polygon = PoolVector2Array( -41, 30, 2, 47, 35, 21, 57, -39, 39, -63, 14, -71, 42, -138, 29, -140, 0, -72, -30, -69, -56, -27, -55, 10 )
+polygon = PoolVector2Array( 0, -17, -3, -43, 4, -45, 7, -20, 22, -18, 29, 19, 5, 42, -16, 30, -26, -8, -18, -19 )

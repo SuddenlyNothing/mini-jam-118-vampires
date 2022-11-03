@@ -179,5 +179,4 @@ size_flags_vertical = 8
 text = "View Tasks"
 next_scene = "res://scenes/ChooseTask.tscn"
 
-[connection signal="tree_exited" from="PotionCreation" to="PotionCreation" method="_on_SpriteSelect_tree_exited"]
 [connection signal="pressed" from="Control/M/Tasks" to="." method="_on_Tasks_pressed"]

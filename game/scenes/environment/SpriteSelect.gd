@@ -78,8 +78,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func check_change_hover() -> void:
 	if hovered:
-		if not is_mouse_inside or max_prio > hover_priority or\
-				(disabled and not holding):
+		if not holding and (not is_mouse_inside or max_prio > hover_priority or\
+				disabled):
 			set_hovered(false)
 	else:
 		if is_mouse_inside and max_prio < hover_priority and not disabled:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/materials/Material.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/art/crabs/shell.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/shop/ingredients/hermit_shell.png" type="Texture" id=2]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -138,4 +138,4 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="." index="1"]
 position = Vector2( 0, -34 )
-polygon = PoolVector2Array( -20, 82, -47, 47, -87, 14, -128, -57, -86, -50, -53, -68, -25, -63, 14, -70, 44, -56, 81, -44, 80, 22 )
+polygon = PoolVector2Array( 1, 85, -33, 51, -35, 43, -44, 30, 15, 25, 40, 36, 38, 65 )
